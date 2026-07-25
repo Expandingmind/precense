@@ -14,24 +14,27 @@ forward me any reel, tiktok, or short — the ones you posted, or ones you want 
 
 just send. no setup.`;
 
-export default async function handler(req) {
-  if (req.method !== 'POST') return new Response('ok', { status: 200 });
-
-  const secret = req.headers.get('x-telegram-bot-api-secret-token');
-  if (secret !== process.env.TELEGRAM_WEBHOOK_SECRET) {
-    return new Response('forbidden', { status: 403 });
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.status(200).send('ok');
+    return;
   }
 
-  let update;
-  try {
-    update = await req.json();
-  } catch {
-    return new Response('bad json', { status: 400 });
+  const secret = req.headers['x-telegram-bot-api-secret-token'];
+  if (secret !== process.env.TELEGRAM_WEBHOOK_SECRET) {
+    res.status(403).send('forbidden');
+    return;
+  }
+
+  const update = req.body;
+  if (!update || typeof update !== 'object') {
+    res.status(400).send('bad json');
+    return;
   }
 
   waitUntil(handleUpdate(update).catch((err) => console.error('handleUpdate error', err)));
 
-  return new Response('ok', { status: 200 });
+  res.status(200).send('ok');
 }
 
 async function handleUpdate(update) {
