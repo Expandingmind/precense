@@ -1,6 +1,6 @@
 {
   "name": "precense",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,11 +8,12 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.70.0",
-    "@supabase/supabase-js": "^2.45.0",
+    "@supabase/supabase-js": "^2.110.8",
     "@vercel/functions": "^2.0.0"
   },
   "scripts": {
     "set-webhook": "node scripts/set-webhook.js",
-    "delete-webhook": "node scripts/delete-webhook.js"
+    "delete-webhook": "node scripts/delete-webhook.js",
+    "add:teardown": "node scripts/add-teardown.js"
   }
 }
