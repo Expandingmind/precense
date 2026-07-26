@@ -7,7 +7,9 @@
 <meta name="description" content="Forward your social videos to Precense. It watches what actually goes viral, learns your signature, and tells you exactly what to make next." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css" />
+<link rel="stylesheet" href="/styles/components.css" />
 <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
@@ -24,7 +26,7 @@
       <a href="#sample">Sample</a>
       <a href="#channels">Channels</a>
     </nav>
-    <a href="#waitlist" class="btn btn-primary btn-sm">Join waitlist</a>
+    <a href="/app/" class="btn btn-ghost btn-sm">Open app →</a>
   </div>
 </header>
 
@@ -36,15 +38,16 @@
       <h1 class="display">
         The agent that <em>studies</em><br/>your feed.
       </h1>
-      <p class="lede">Forward your reels, TikToks and shorts to Precense like you'd send them to a friend. It watches what actually goes viral, finds the patterns across your best posts, learns your signature — and tells you exactly what to make next.</p>
-      <div class="cta-row">
-        <a href="#waitlist" class="btn btn-primary">Join the waitlist →</a>
-        <a href="#how" class="btn btn-ghost">See how it works</a>
-      </div>
+      <p class="lede">Forward your reels, TikToks and shorts to Precense like you'd send them to a friend. It watches what actually goes viral, learns your signature — and tells you exactly what to make next.</p>
+      <form class="pill-input hero-pill" onsubmit="event.preventDefault(); joinWaitlist(this);">
+        <input type="email" required placeholder="you@studio.com" aria-label="Email" />
+        <button class="pill-input-send" type="submit" aria-label="Join waitlist">↑</button>
+      </form>
+      <div class="wl-msg" id="hero-wl-msg"></div>
       <div class="hero-meta">
-        <span class="pill">Telegram · at launch</span>
-        <span class="pill">WhatsApp · soon</span>
-        <span class="pill">Never a dashboard</span>
+        <span class="badge-soft">Telegram · live</span>
+        <span class="badge-soft">WhatsApp · at launch</span>
+        <span class="badge-soft badge-gold">Never a dashboard</span>
       </div>
     </div>
 
@@ -82,99 +85,138 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS (dark) -->
-<section id="how" class="section dark">
+<!-- HOW IT WORKS -->
+<section id="how" class="section">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="eyebrow eyebrow-cream">HOW IT WORKS</div>
+      <div class="eyebrow">HOW IT WORKS</div>
       <h2 class="h2">Three steps.<br/><em>Zero</em> dashboards.</h2>
     </div>
     <div class="steps">
-      <div class="step reveal">
+      <div class="step card reveal">
         <div class="step-num">01</div>
-        <h3>Forward a video</h3>
+        <h3 class="h3">Forward a video</h3>
         <p>Send Precense a reel, a TikTok, a short — anything you posted or want to study. Like DMing a friend who happens to know your entire archive.</p>
       </div>
-      <div class="step reveal">
+      <div class="step card reveal">
         <div class="step-num">02</div>
-        <h3>It finds the pattern</h3>
+        <h3 class="h3">It <em>finds</em> the pattern</h3>
         <p>Precense compares the video to your history, the current wave on the platform, and the hooks that keep viewers past second three.</p>
       </div>
-      <div class="step reveal">
+      <div class="step card reveal">
         <div class="step-num">03</div>
-        <h3>You get the next move</h3>
+        <h3 class="h3">You get the next move</h3>
         <p>A short reply back in chat: what worked, why, and three specific things to make tomorrow — tuned to your voice.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHAT IT DOES (cream alt) -->
-<section id="what" class="section alt">
+<!-- FEATURES / feed sample -->
+<section id="what" class="section">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="eyebrow">FEATURES</div>
-      <h2 class="h2">A strategist that <em>actually</em> watches the videos.</h2>
+      <div class="eyebrow">WHAT PRECENSE SEES</div>
+      <h2 class="h2">A strategist that <em>actually</em> watches the video.</h2>
+      <p class="lede">Every teardown becomes a card. Save the ones that shift how you think.</p>
     </div>
-    <div class="cards">
-      <article class="card reveal">
-        <div class="card-tag">01 · Signature</div>
-        <h3>Learns your voice</h3>
-        <p>Every forward teaches Precense what makes a post feel like <em>you</em> — cadence, structure, the beats you always hit.</p>
+
+    <div class="card-carousel reveal">
+      <article class="content-card">
+        <div class="content-card-thumb" style="background-image: linear-gradient(180deg, #3f2a15 0%, #7a4a1e 100%);"></div>
+        <div class="content-card-top">
+          <span class="content-card-badge" data-tone="gold">3.4× your median</span>
+          <button class="content-card-heart" aria-label="Save">♥</button>
+        </div>
+        <div class="content-card-take"><span class="card-play">▸</span><em>your fastest hook ever landed at 0:00.4.</em></div>
       </article>
-      <article class="card reveal">
-        <div class="card-tag">02 · Patterns</div>
-        <h3>Reads the wave</h3>
-        <p>Tracks the formats spiking right now on your platform and maps them onto your niche — so trends actually convert.</p>
+      <article class="content-card">
+        <div class="content-card-thumb" style="background-image: linear-gradient(160deg, #1e3a30 0%, #3d6b52 100%);"></div>
+        <div class="content-card-top">
+          <span class="content-card-badge">top 8%</span>
+          <button class="content-card-heart" aria-label="Save">♥</button>
+        </div>
+        <div class="content-card-take"><span class="card-play">▸</span><em>pattern-break at 0:11 is your unfair advantage.</em></div>
       </article>
-      <article class="card reveal">
-        <div class="card-tag">03 · Hooks</div>
-        <h3>Writes hooks that hold</h3>
-        <p>Retention-first hook ideas graded against your own best openers, not a generic viral template file.</p>
+      <article class="content-card">
+        <div class="content-card-thumb" style="background-image: linear-gradient(180deg, #2b1e2e 0%, #55365c 100%);"></div>
+        <div class="content-card-top">
+          <span class="content-card-badge">retention 74%</span>
+          <button class="content-card-heart" aria-label="Save">♥</button>
+        </div>
+        <div class="content-card-take"><span class="card-play">▸</span><em>three-verb caption. your sweet spot.</em></div>
       </article>
-      <article class="card reveal">
-        <div class="card-tag">04 · Cadence</div>
-        <h3>Tells you what's next</h3>
-        <p>A tight shot list for tomorrow's post — subject, opener, pacing, CTA. Send. Shoot. Repeat.</p>
+      <article class="content-card">
+        <div class="content-card-thumb" style="background-image: linear-gradient(180deg, #2d281a 0%, #5c5330 100%);"></div>
+        <div class="content-card-top">
+          <span class="content-card-badge" data-tone="gold">reel of the week</span>
+          <button class="content-card-heart" aria-label="Save">♥</button>
+        </div>
+        <div class="content-card-take"><span class="card-play">▸</span><em>you're better at POV than at talking-head.</em></div>
       </article>
+    </div>
+
+    <div class="feature-grid reveal">
+      <div class="feature">
+        <div class="feature-tag">01 · Signature</div>
+        <h3 class="h3">Learns your voice</h3>
+        <p>Every forward teaches Precense what makes a post feel like <em>you</em>.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-tag">02 · Patterns</div>
+        <h3 class="h3">Reads the wave</h3>
+        <p>Tracks the formats spiking right now on your platform and maps them onto your niche.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-tag">03 · Hooks</div>
+        <h3 class="h3">Writes hooks that <em>hold</em></h3>
+        <p>Retention-first hook ideas graded against your own best openers.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-tag">04 · Cadence</div>
+        <h3 class="h3">Tells you what's next</h3>
+        <p>A tight shot list for tomorrow's post. Subject, opener, pacing, CTA.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- SAMPLE (dark, code card) -->
-<section id="sample" class="section dark">
+<!-- SAMPLE REPLY -->
+<section id="sample" class="section">
   <div class="wrap sample-grid">
     <div class="reveal">
-      <div class="eyebrow eyebrow-cream">A SAMPLE REPLY</div>
+      <div class="eyebrow">A SAMPLE REPLY</div>
       <h2 class="h2">What Precense <em>sends back.</em></h2>
-      <p class="lede lede-cream">No dashboards, no scores, no exports. Just a short, specific message in the same thread you sent the video from.</p>
+      <p class="lede">No dashboards, no scores, no exports. Just a short, specific message in the same thread you sent the video from.</p>
     </div>
-    <div class="code-card reveal">
-      <div class="code-head">
-        <span class="dot d-red"></span><span class="dot d-amber"></span><span class="dot d-green"></span>
-        <span class="code-title">precense · reply</span>
+    <div class="reply-card card reveal">
+      <div class="reply-header">
+        <div class="avatar">P</div>
+        <div>
+          <div class="chat-name">Precense</div>
+          <div class="chat-sub">reply · 8s</div>
+        </div>
       </div>
-<pre class="code-body">
-<span class="c-mut">// forwarded: reel_0714.mp4 (42s)</span>
-<span class="c-key">verdict</span>: <span class="c-str">"top 8% of your last 30 posts"</span>
-
-<span class="c-key">why_it_hit</span>:
-  - hook lands at 0:00.4 <span class="c-mut">// your fastest ever</span>
-  - reveal at 0:11 matches your <span class="c-str">"pattern-break"</span> signature
-  - caption verb count = 3 <span class="c-mut">// your sweet spot</span>
-
-<span class="c-key">tomorrow</span>:
-  1. <span class="c-str">"the boring version of this trend hides the good part"</span>
-  2. <span class="c-str">"i tried it wrong first — here's what changed"</span>
-  3. <span class="c-str">"one thing nobody edits out"</span>
-
-<span class="c-mut">// reply here to lock #2 as tomorrow's post ↓</span>
-</pre>
+      <div class="reply-body">
+        <p class="reply-verdict"><em>Top 8% of your last 30 posts.</em></p>
+        <p><strong>why it hit</strong></p>
+        <ul>
+          <li>hook lands at 0:00.4 — your fastest ever</li>
+          <li>reveal at 0:11 matches your pattern-break signature</li>
+          <li>caption verb count = 3 — your sweet spot</li>
+        </ul>
+        <p><strong>3 to shoot tomorrow</strong></p>
+        <ol>
+          <li>"the boring version of this trend hides the good part"</li>
+          <li>"i tried it wrong first — here's what changed"</li>
+          <li>"one thing nobody edits out"</li>
+        </ol>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CHANNELS (cream) -->
+<!-- CHANNELS -->
 <section id="channels" class="section">
   <div class="wrap">
     <div class="section-head reveal">
@@ -183,31 +225,31 @@
       <p class="lede">Precense isn't another app to open. It runs where you already share reels with friends.</p>
     </div>
     <div class="channels">
-      <div class="channel reveal">
+      <div class="channel card reveal">
         <div class="ch-icon" data-color="orange">TG</div>
         <div>
-          <div class="ch-name">Telegram <span class="ch-tag tag-live">Live</span></div>
+          <div class="ch-name">Telegram <span class="badge-soft">Live</span></div>
           <div class="ch-desc">Open Bot API. Send a video, get a reply.</div>
         </div>
       </div>
-      <div class="channel reveal">
+      <div class="channel card reveal">
         <div class="ch-icon" data-color="teal">WA</div>
         <div>
-          <div class="ch-name">WhatsApp <span class="ch-tag tag-live">At launch</span></div>
+          <div class="ch-name">WhatsApp <span class="badge-soft">At launch</span></div>
           <div class="ch-desc">Cloud API. Same magic, green bubble edition.</div>
         </div>
       </div>
-      <div class="channel reveal">
+      <div class="channel card reveal">
         <div class="ch-icon" data-color="blue">IG</div>
         <div>
-          <div class="ch-name">Instagram DM <span class="ch-tag tag-soon">Soon</span></div>
+          <div class="ch-name">Instagram DM <span class="badge-soft badge-gold">Soon</span></div>
           <div class="ch-desc">Gated on Meta review. We're in the queue.</div>
         </div>
       </div>
-      <div class="channel reveal">
+      <div class="channel card reveal">
         <div class="ch-icon" data-color="lime">TT</div>
         <div>
-          <div class="ch-name">TikTok DM <span class="ch-tag tag-soon">Soon</span></div>
+          <div class="ch-name">TikTok DM <span class="badge-soft badge-gold">Soon</span></div>
           <div class="ch-desc">Watching the API roadmap. On it the day it opens.</div>
         </div>
       </div>
@@ -215,19 +257,17 @@
   </div>
 </section>
 
-<!-- WAITLIST (dark) -->
-<section id="waitlist" class="section dark">
-  <div class="wrap waitlist">
-    <div class="reveal">
-      <div class="eyebrow eyebrow-cream">JOIN THE WAITLIST</div>
-      <h2 class="h2">Be the first thread <em>we open</em>.</h2>
-      <p class="lede lede-cream">Early access is going out in small batches. Drop your email and we'll send your Telegram invite when your slot opens.</p>
-    </div>
-    <form class="waitlist-form reveal" onsubmit="event.preventDefault(); this.querySelector('.wl-msg').textContent='You’re on the list. Watch your inbox.'; this.querySelector('input').value='';">
-      <input type="email" required placeholder="you@studio.com" />
-      <button class="btn btn-primary" type="submit">Get my invite →</button>
-      <div class="wl-msg"></div>
+<!-- WAITLIST -->
+<section id="waitlist" class="section waitlist-section">
+  <div class="wrap-narrow waitlist card reveal">
+    <div class="eyebrow">JOIN THE WAITLIST</div>
+    <h2 class="h2">Be the first thread <em>we open</em>.</h2>
+    <p class="lede">Early access is going out in small batches. Drop your email and we'll send your Telegram invite when your slot opens.</p>
+    <form class="pill-input" onsubmit="event.preventDefault(); joinWaitlist(this);">
+      <input type="email" required placeholder="you@studio.com" aria-label="Email" />
+      <button class="pill-input-send" type="submit" aria-label="Join waitlist">↑</button>
     </form>
+    <div class="wl-msg"></div>
   </div>
 </section>
 
@@ -235,6 +275,8 @@
   <div class="wrap footer-inner">
     <div class="brand"><span class="brand-dot"></span> Precense</div>
     <div class="foot-links">
+      <a href="/app/">Open app</a>
+      <span>·</span>
       <a href="https://github.com/Expandingmind/precense" target="_blank" rel="noopener">GitHub</a>
       <span>·</span>
       <span>© 2026</span>
