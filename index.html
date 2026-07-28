@@ -17,58 +17,77 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="/">
-      <span class="brand-dot"></span>
+      <span class="brand-mark">P</span>
       <span>Precense</span>
     </a>
     <nav class="nav-links">
       <a href="#how">How it works</a>
-      <a href="#what">Features</a>
+      <a href="#features">Features</a>
       <a href="#sample">Sample</a>
       <a href="#channels">Channels</a>
     </nav>
-    <a href="/app/" class="btn btn-ghost btn-sm">Open app →</a>
+    <div class="nav-cta">
+      <a href="/app/" class="btn btn-ghost btn-sm">Open app</a>
+      <a href="#waitlist" class="btn btn-primary btn-sm">Join waitlist</a>
+    </div>
   </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy reveal">
-      <div class="eyebrow">A CONTENT STRATEGIST · IN YOUR DMS</div>
-      <h1 class="display">
-        The agent that <em>studies</em><br/>your feed.
+  <div class="wrap">
+    <div class="hero-inner reveal">
+      <div class="eyebrow hero-eyebrow">A CONTENT STRATEGIST · IN YOUR DMS</div>
+      <h1 class="display hero-headline">
+        The agent that <em>studies</em> your feed.
       </h1>
-      <p class="lede">Forward your reels, TikToks and shorts to Precense like you'd send them to a friend. It watches what actually goes viral, learns your signature — and tells you exactly what to make next.</p>
+      <p class="lede hero-lede">Forward your reels, TikToks and shorts to Precense like you'd send them to a friend. It watches what actually goes viral, learns your signature — and tells you exactly what to make next.</p>
+
       <form class="pill-input hero-pill" onsubmit="event.preventDefault(); joinWaitlist(this);">
         <input type="email" required placeholder="you@studio.com" aria-label="Email" />
-        <button class="pill-input-send" type="submit" aria-label="Join waitlist">↑</button>
+        <button class="pill-input-send" type="submit" aria-label="Join waitlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
       </form>
       <div class="wl-msg" id="hero-wl-msg"></div>
+
       <div class="hero-meta">
-        <span class="badge-soft">Telegram · live</span>
-        <span class="badge-soft">WhatsApp · at launch</span>
+        <span class="badge-soft"><span class="dot" style="color:var(--accent)"></span>Telegram live</span>
+        <span class="badge-soft badge-neutral">WhatsApp at launch</span>
         <span class="badge-soft badge-gold">Never a dashboard</span>
       </div>
     </div>
 
-    <!-- Phone / chat mockup -->
-    <div class="phone-wrap reveal">
-      <div class="phone-halo"></div>
-      <div class="phone">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <div class="chat-header">
-            <div class="avatar">P</div>
-            <div>
-              <div class="chat-name">Precense</div>
-              <div class="chat-sub">online · learning your style</div>
-            </div>
+    <!-- hero visual: composed row of ContentCards showing what Precense sends back -->
+    <div class="hero-visual reveal">
+      <div class="hero-visual-card hero-visual-card--main">
+        <div class="content-card">
+          <div class="content-card-thumb" style="background:linear-gradient(160deg, #2d2419 0%, #6b4a2b 55%, #b48a55 100%);"></div>
+          <div class="content-card-top">
+            <span class="content-card-badge" data-tone="gold">3.4× your median</span>
+            <button class="content-card-heart" data-active="true" aria-label="Saved"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           </div>
-          <div class="chat-body" id="chat-body"></div>
-          <div class="chat-input">
-            <span>Message Precense</span>
-            <span class="send">↑</span>
+          <div class="content-card-take"><em>your fastest hook ever landed at 0:00.4.</em></div>
+        </div>
+      </div>
+      <div class="hero-visual-card hero-visual-card--right">
+        <div class="content-card">
+          <div class="content-card-thumb" style="background:linear-gradient(160deg, #1a2b26 0%, #2e5548 55%, #5c8f7e 100%);"></div>
+          <div class="content-card-top">
+            <span class="content-card-badge">top 8%</span>
+            <button class="content-card-heart" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           </div>
+          <div class="content-card-take"><em>pattern-break at 0:11 is your unfair advantage.</em></div>
+        </div>
+      </div>
+      <div class="hero-visual-card hero-visual-card--left">
+        <div class="content-card">
+          <div class="content-card-thumb" style="background:linear-gradient(160deg, #241a26 0%, #4e2f56 55%, #825982 100%);"></div>
+          <div class="content-card-top">
+            <span class="content-card-badge">retention 74%</span>
+            <button class="content-card-heart" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="content-card-take"><em>three-verb caption. your sweet spot.</em></div>
         </div>
       </div>
     </div>
@@ -93,17 +112,17 @@
       <h2 class="h2">Three steps.<br/><em>Zero</em> dashboards.</h2>
     </div>
     <div class="steps">
-      <div class="step card reveal">
+      <div class="step reveal">
         <div class="step-num">01</div>
         <h3 class="h3">Forward a video</h3>
         <p>Send Precense a reel, a TikTok, a short — anything you posted or want to study. Like DMing a friend who happens to know your entire archive.</p>
       </div>
-      <div class="step card reveal">
+      <div class="step reveal">
         <div class="step-num">02</div>
-        <h3 class="h3">It <em>finds</em> the pattern</h3>
+        <h3 class="h3">It finds the pattern</h3>
         <p>Precense compares the video to your history, the current wave on the platform, and the hooks that keep viewers past second three.</p>
       </div>
-      <div class="step card reveal">
+      <div class="step reveal">
         <div class="step-num">03</div>
         <h3 class="h3">You get the next move</h3>
         <p>A short reply back in chat: what worked, why, and three specific things to make tomorrow — tuned to your voice.</p>
@@ -112,70 +131,34 @@
   </div>
 </section>
 
-<!-- FEATURES / feed sample -->
-<section id="what" class="section">
+<!-- FEATURES -->
+<section id="features" class="section">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow">WHAT PRECENSE SEES</div>
       <h2 class="h2">A strategist that <em>actually</em> watches the video.</h2>
-      <p class="lede">Every teardown becomes a card. Save the ones that shift how you think.</p>
-    </div>
-
-    <div class="card-carousel reveal">
-      <article class="content-card">
-        <div class="content-card-thumb" style="background-image: linear-gradient(180deg, #3f2a15 0%, #7a4a1e 100%);"></div>
-        <div class="content-card-top">
-          <span class="content-card-badge" data-tone="gold">3.4× your median</span>
-          <button class="content-card-heart" aria-label="Save">♥</button>
-        </div>
-        <div class="content-card-take"><span class="card-play">▸</span><em>your fastest hook ever landed at 0:00.4.</em></div>
-      </article>
-      <article class="content-card">
-        <div class="content-card-thumb" style="background-image: linear-gradient(160deg, #1e3a30 0%, #3d6b52 100%);"></div>
-        <div class="content-card-top">
-          <span class="content-card-badge">top 8%</span>
-          <button class="content-card-heart" aria-label="Save">♥</button>
-        </div>
-        <div class="content-card-take"><span class="card-play">▸</span><em>pattern-break at 0:11 is your unfair advantage.</em></div>
-      </article>
-      <article class="content-card">
-        <div class="content-card-thumb" style="background-image: linear-gradient(180deg, #2b1e2e 0%, #55365c 100%);"></div>
-        <div class="content-card-top">
-          <span class="content-card-badge">retention 74%</span>
-          <button class="content-card-heart" aria-label="Save">♥</button>
-        </div>
-        <div class="content-card-take"><span class="card-play">▸</span><em>three-verb caption. your sweet spot.</em></div>
-      </article>
-      <article class="content-card">
-        <div class="content-card-thumb" style="background-image: linear-gradient(180deg, #2d281a 0%, #5c5330 100%);"></div>
-        <div class="content-card-top">
-          <span class="content-card-badge" data-tone="gold">reel of the week</span>
-          <button class="content-card-heart" aria-label="Save">♥</button>
-        </div>
-        <div class="content-card-take"><span class="card-play">▸</span><em>you're better at POV than at talking-head.</em></div>
-      </article>
     </div>
 
     <div class="feature-grid reveal">
       <div class="feature">
-        <div class="feature-tag">01 · Signature</div>
+        <div class="feature-num">01</div>
         <h3 class="h3">Learns your voice</h3>
-        <p>Every forward teaches Precense what makes a post feel like <em>you</em>.</p>
+        <p>Every forward teaches Precense what makes a post feel like you — cadence, structure, the beats you always hit.</p>
       </div>
       <div class="feature">
-        <div class="feature-tag">02 · Patterns</div>
+        <div class="feature-num">02</div>
         <h3 class="h3">Reads the wave</h3>
-        <p>Tracks the formats spiking right now on your platform and maps them onto your niche.</p>
+        <p>Tracks the formats spiking right now on your platform and maps them onto your niche — so trends actually convert.</p>
       </div>
       <div class="feature">
-        <div class="feature-tag">03 · Hooks</div>
-        <h3 class="h3">Writes hooks that <em>hold</em></h3>
-        <p>Retention-first hook ideas graded against your own best openers.</p>
+        <div class="feature-num">03</div>
+        <h3 class="h3">Writes hooks that hold</h3>
+        <p>Retention-first hook ideas graded against your own best openers, not a generic viral template file.</p>
       </div>
       <div class="feature">
-        <div class="feature-tag">04 · Cadence</div>
+        <div class="feature-num">04</div>
         <h3 class="h3">Tells you what's next</h3>
-        <p>A tight shot list for tomorrow's post. Subject, opener, pacing, CTA.</p>
+        <p>A tight shot list for tomorrow's post — subject, opener, pacing, CTA. Send. Shoot. Repeat.</p>
       </div>
     </div>
   </div>
@@ -191,21 +174,21 @@
     </div>
     <div class="reply-card card reveal">
       <div class="reply-header">
-        <div class="avatar">P</div>
+        <div class="reply-avatar">P</div>
         <div>
-          <div class="chat-name">Precense</div>
-          <div class="chat-sub">reply · 8s</div>
+          <div class="reply-name">Precense</div>
+          <div class="reply-sub">reply · 8s</div>
         </div>
       </div>
       <div class="reply-body">
         <p class="reply-verdict"><em>Top 8% of your last 30 posts.</em></p>
-        <p><strong>why it hit</strong></p>
+        <div class="reply-section-label">WHY IT HIT</div>
         <ul>
           <li>hook lands at 0:00.4 — your fastest ever</li>
           <li>reveal at 0:11 matches your pattern-break signature</li>
           <li>caption verb count = 3 — your sweet spot</li>
         </ul>
-        <p><strong>3 to shoot tomorrow</strong></p>
+        <div class="reply-section-label">3 TO SHOOT TOMORROW</div>
         <ol>
           <li>"the boring version of this trend hides the good part"</li>
           <li>"i tried it wrong first — here's what changed"</li>
@@ -225,31 +208,31 @@
       <p class="lede">Precense isn't another app to open. It runs where you already share reels with friends.</p>
     </div>
     <div class="channels">
-      <div class="channel card reveal">
-        <div class="ch-icon" data-color="orange">TG</div>
+      <div class="channel reveal">
+        <div class="ch-icon" style="background:#26a5e0">TG</div>
         <div>
           <div class="ch-name">Telegram <span class="badge-soft">Live</span></div>
           <div class="ch-desc">Open Bot API. Send a video, get a reply.</div>
         </div>
       </div>
-      <div class="channel card reveal">
-        <div class="ch-icon" data-color="teal">WA</div>
+      <div class="channel reveal">
+        <div class="ch-icon" style="background:#25d366">WA</div>
         <div>
-          <div class="ch-name">WhatsApp <span class="badge-soft">At launch</span></div>
+          <div class="ch-name">WhatsApp <span class="badge-soft badge-gold">At launch</span></div>
           <div class="ch-desc">Cloud API. Same magic, green bubble edition.</div>
         </div>
       </div>
-      <div class="channel card reveal">
-        <div class="ch-icon" data-color="blue">IG</div>
+      <div class="channel reveal">
+        <div class="ch-icon" style="background:linear-gradient(135deg,#f58529,#dd2a7b)">IG</div>
         <div>
-          <div class="ch-name">Instagram DM <span class="badge-soft badge-gold">Soon</span></div>
+          <div class="ch-name">Instagram DM <span class="badge-soft badge-neutral">Soon</span></div>
           <div class="ch-desc">Gated on Meta review. We're in the queue.</div>
         </div>
       </div>
-      <div class="channel card reveal">
-        <div class="ch-icon" data-color="lime">TT</div>
+      <div class="channel reveal">
+        <div class="ch-icon" style="background:#0a0a0a">TT</div>
         <div>
-          <div class="ch-name">TikTok DM <span class="badge-soft badge-gold">Soon</span></div>
+          <div class="ch-name">TikTok DM <span class="badge-soft badge-neutral">Soon</span></div>
           <div class="ch-desc">Watching the API roadmap. On it the day it opens.</div>
         </div>
       </div>
@@ -265,7 +248,9 @@
     <p class="lede">Early access is going out in small batches. Drop your email and we'll send your Telegram invite when your slot opens.</p>
     <form class="pill-input" onsubmit="event.preventDefault(); joinWaitlist(this);">
       <input type="email" required placeholder="you@studio.com" aria-label="Email" />
-      <button class="pill-input-send" type="submit" aria-label="Join waitlist">↑</button>
+      <button class="pill-input-send" type="submit" aria-label="Join waitlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+      </button>
     </form>
     <div class="wl-msg"></div>
   </div>
@@ -273,7 +258,7 @@
 
 <footer class="footer">
   <div class="wrap footer-inner">
-    <div class="brand"><span class="brand-dot"></span> Precense</div>
+    <div class="brand"><span class="brand-mark">P</span> Precense</div>
     <div class="foot-links">
       <a href="/app/">Open app</a>
       <span>·</span>

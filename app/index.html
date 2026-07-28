@@ -14,148 +14,246 @@
 </head>
 <body class="app-body">
 
-<main id="view" class="app-view"></main>
+<div class="shell">
+  <!-- SIDEBAR (desktop) -->
+  <aside class="side">
+    <a class="side-brand" href="/">
+      <span class="brand-mark">P</span>
+      <span class="brand-word">Precense</span>
+    </a>
+    <nav class="side-nav" id="side-nav">
+      <a href="#home" data-view="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="#saved" data-view="saved">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span>Saved</span>
+      </a>
+      <a href="#profile" data-view="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        <span>Profile</span>
+      </a>
+      <a href="#settings" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.82-.33 1.7 1.7 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.51 1.7 1.7 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.33 1.82V9a1.7 1.7 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
 
-<nav class="floating-nav" id="nav">
+    <div class="side-foot">
+      <a class="side-user" href="#profile" data-view="profile">
+        <span class="side-user-avatar" data-profile-initial>P</span>
+        <span class="side-user-meta">
+          <span class="side-user-name" data-side-name>—</span>
+          <span class="side-user-handle" data-side-handle>@—</span>
+        </span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="view" class="main"></main>
+</div>
+
+<!-- FLOATING NAV (mobile only, hidden on desktop via CSS) -->
+<nav class="floating-nav" id="mobile-nav">
   <a href="#home" data-view="home" aria-label="Home">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
     <span>Home</span>
   </a>
   <a href="#saved" data-view="saved" aria-label="Saved">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
     <span>Saved</span>
   </a>
   <a href="#profile" data-view="profile" aria-label="Profile">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
     <span>Profile</span>
   </a>
 </nav>
 
+<!-- ---------- TEMPLATES ---------- -->
+
 <template id="tpl-home">
-  <section class="app-section reveal in">
-    <header class="app-header">
-      <a class="brand-mini" href="/"><span class="brand-dot"></span><span>Precense</span></a>
-      <a class="settings-link" href="#settings" aria-label="Settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6 1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </a>
-    </header>
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="hero-block reveal in">
+        <div class="eyebrow">TODAY · <span data-today>—</span></div>
+        <h1 class="h1-lg">Hey <span data-greeting-name>friend</span>, what did you <em>post?</em></h1>
+      </div>
 
-    <div class="greeting reveal">
-      <div class="eyebrow" data-greeting-eyebrow>WELCOME BACK</div>
-      <h1 class="display" data-greeting>
-        <span data-greeting-name>Jah</span>,<br/>
-        what did you <em>post?</em>
-      </h1>
-    </div>
+      <form class="pill-input reveal" onsubmit="event.preventDefault(); handlePrompt(this);">
+        <input type="text" placeholder="Paste a video link or ask Precense a question…" aria-label="Ask Precense" />
+        <button class="pill-input-send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
+      </form>
 
-    <form class="pill-input hero-pill reveal" onsubmit="event.preventDefault(); handlePrompt(this);">
-      <input type="text" placeholder="Paste a video link or ask Precense…" aria-label="Ask Precense" />
-      <button class="pill-input-send" type="submit" aria-label="Send">↑</button>
-    </form>
+      <div class="chip-row reveal">
+        <button class="chip" onclick="setPromptText(this)">Why did my last one flop?</button>
+        <button class="chip" onclick="setPromptText(this)">What should I make today?</button>
+        <button class="chip" onclick="setPromptText(this)">Give me 3 hooks for tomorrow</button>
+        <button class="chip" onclick="setPromptText(this)">What's my strongest format?</button>
+        <button class="chip" onclick="setPromptText(this)">Rate my last week</button>
+      </div>
 
-    <div class="chip-row reveal" id="quick-chips">
-      <button class="chip" onclick="setPromptText(this)">Why did my last one flop?</button>
-      <button class="chip" onclick="setPromptText(this)">What should I make today?</button>
-      <button class="chip" onclick="setPromptText(this)">Give me 3 hooks for tomorrow</button>
-      <button class="chip" onclick="setPromptText(this)">What's my strongest format?</button>
-      <button class="chip" onclick="setPromptText(this)">Rate my last week</button>
-    </div>
+      <div class="section-title reveal">
+        <div>
+          <div class="eyebrow">FOR YOU</div>
+          <h2 class="h3-serif">Recent teardowns</h2>
+        </div>
+        <a class="link-mini" href="#saved">All saved →</a>
+      </div>
 
-    <div class="section-title reveal">
-      <div class="eyebrow">FOR YOU</div>
-      <h2 class="h3-serif">Recent teardowns</h2>
-    </div>
+      <div class="feed" id="feed"></div>
 
-    <div class="card-carousel reveal" id="feed"></div>
+      <div class="empty-hint reveal" id="empty-hint" hidden>
+        <p>You haven't forwarded a video yet. Open <a href="https://t.me/getprecense_bot" target="_blank" rel="noopener">@getprecense_bot</a> in Telegram and send Precense any reel to get your first teardown.</p>
+      </div>
+    </section>
 
-    <div class="empty-hint reveal" id="empty-hint" hidden>
-      <p>You haven't forwarded a video yet. Open <a href="https://t.me/getprecense_bot" target="_blank" rel="noopener">@getprecense_bot</a> in Telegram and send Precense any reel to get your first teardown.</p>
-    </div>
-  </section>
+    <aside class="page-rail">
+      <div class="rail-card card reveal in">
+        <div class="rail-head">
+          <div class="eyebrow">YOUR SIGNATURE</div>
+          <span class="badge-soft badge-neutral"><span data-rail-count>0</span> videos</span>
+        </div>
+        <div class="rail-body">
+          <div class="rail-item">
+            <div class="rail-label">Dominant hooks</div>
+            <div class="sig-chips" data-rail-hooks></div>
+          </div>
+          <hr class="hairline" />
+          <div class="rail-item">
+            <div class="rail-label">Dominant formats</div>
+            <div class="sig-chips" data-rail-formats></div>
+          </div>
+          <hr class="hairline" />
+          <div class="rail-item">
+            <div class="rail-label">Common subjects</div>
+            <div class="sig-chips" data-rail-subjects></div>
+          </div>
+        </div>
+        <a class="rail-link" href="#profile">See full signature →</a>
+      </div>
+
+      <div class="rail-card card reveal in">
+        <div class="eyebrow" style="margin-bottom:.75rem">PRECENSE LIVES IN</div>
+        <div class="rail-channels">
+          <div class="rail-channel">
+            <span class="rail-ch-dot" style="background:#26a5e0"></span>
+            <span>Telegram</span>
+            <span class="badge-soft">Live</span>
+          </div>
+          <div class="rail-channel">
+            <span class="rail-ch-dot" style="background:#25d366"></span>
+            <span>WhatsApp</span>
+            <span class="badge-soft badge-gold">Soon</span>
+          </div>
+          <div class="rail-channel">
+            <span class="rail-ch-dot" style="background:linear-gradient(135deg,#f58529,#dd2a7b)"></span>
+            <span>Instagram DM</span>
+            <span class="badge-soft badge-neutral">Gated</span>
+          </div>
+        </div>
+        <a class="rail-link" href="https://t.me/getprecense_bot" target="_blank" rel="noopener">Open the bot →</a>
+      </div>
+    </aside>
+  </div>
 </template>
 
 <template id="tpl-profile">
-  <section class="app-section reveal in">
-    <header class="app-header">
-      <a class="brand-mini" href="#home"><span class="brand-dot"></span><span>Precense</span></a>
-    </header>
+  <div class="page-single">
+    <section class="profile-hero reveal in">
+      <div class="profile-cover"></div>
+      <div class="profile-cover-content">
+        <div class="profile-avatar-lg" data-profile-initial>P</div>
+        <div>
+          <div class="eyebrow">PROFILE</div>
+          <h1 class="h1-lg">The more Precense sees,<br/>the <em>sharper</em> it gets.</h1>
+          <p class="lede" style="margin-top:.75rem">Every video you forward teaches your signature. Here's what Precense has learned so far.</p>
+        </div>
+      </div>
+    </section>
 
-    <div class="profile-hero reveal">
-      <div class="profile-avatar" data-profile-initial>P</div>
-      <h1 class="display">The more Precense sees,<br/>the <em>sharper</em> it gets.</h1>
-      <p class="lede">Every video you forward teaches your signature. Here's what Precense has learned about you so far.</p>
-    </div>
+    <div class="profile-grid">
+      <div class="profile-col">
+        <div class="settings-group-title">THE BASICS</div>
+        <div class="settings-group reveal in">
+          <div class="settings-row">
+            <div class="settings-row-label">Name</div>
+            <div class="settings-row-value" data-profile-name>—</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">Handle</div>
+            <div class="settings-row-value" data-profile-handle>—</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">Niche</div>
+            <div class="settings-row-value">
+              <span data-profile-niche>app-ugc</span>
+              <span class="settings-row-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">Videos analyzed</div>
+            <div class="settings-row-value" data-profile-count>0</div>
+          </div>
+        </div>
 
-    <div class="settings-group-title">THE BASICS</div>
-    <div class="settings-group reveal">
-      <div class="settings-row">
-        <div class="settings-row-label">Name</div>
-        <div class="settings-row-value" data-profile-name>—</div>
+        <div class="settings-group-title">CHANNELS</div>
+        <div class="settings-group reveal in">
+          <div class="settings-row">
+            <div class="settings-row-label">Telegram</div>
+            <div class="settings-row-value"><span class="badge-soft"><span class="dot" style="color:var(--accent)"></span>Live</span></div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">WhatsApp</div>
+            <div class="settings-row-value"><span class="badge-soft badge-gold">Soon</span></div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">Instagram DM</div>
+            <div class="settings-row-value"><span class="badge-soft badge-neutral">Gated · Meta review</span></div>
+          </div>
+        </div>
       </div>
-      <div class="settings-row">
-        <div class="settings-row-label">Handle</div>
-        <div class="settings-row-value" data-profile-handle>—</div>
-      </div>
-      <div class="settings-row">
-        <div class="settings-row-label">Niche</div>
-        <div class="settings-row-value"><span data-profile-niche>app-ugc</span> <span class="settings-row-chev">›</span></div>
-      </div>
-      <div class="settings-row">
-        <div class="settings-row-label">Videos analyzed</div>
-        <div class="settings-row-value"><span data-profile-count>0</span></div>
-      </div>
-    </div>
 
-    <div class="settings-group-title">YOUR SIGNATURE</div>
-    <div class="signature-card card reveal">
-      <div class="sig-row">
-        <div class="sig-label">Dominant hooks</div>
-        <div class="sig-chips" data-sig-hooks></div>
-      </div>
-      <hr class="hairline" />
-      <div class="sig-row">
-        <div class="sig-label">Dominant formats</div>
-        <div class="sig-chips" data-sig-formats></div>
-      </div>
-      <hr class="hairline" />
-      <div class="sig-row">
-        <div class="sig-label">Common subjects</div>
-        <div class="sig-chips" data-sig-subjects></div>
-      </div>
-      <hr class="hairline" />
-      <div class="sig-row">
-        <div class="sig-label">Top performers</div>
-        <div class="sig-perf" data-sig-perf></div>
-      </div>
-    </div>
-
-    <div class="settings-group-title">CHANNELS</div>
-    <div class="settings-group reveal">
-      <div class="settings-row">
-        <div class="settings-row-label">Telegram</div>
-        <div class="settings-row-value"><span class="badge-soft">Live</span></div>
-      </div>
-      <div class="settings-row">
-        <div class="settings-row-label">WhatsApp</div>
-        <div class="settings-row-value"><span class="badge-soft badge-gold">Soon</span></div>
+      <div class="profile-col">
+        <div class="settings-group-title">YOUR SIGNATURE</div>
+        <div class="signature-card card reveal in">
+          <div class="sig-row">
+            <div class="sig-label">Dominant hooks</div>
+            <div class="sig-chips" data-sig-hooks></div>
+          </div>
+          <hr class="hairline" />
+          <div class="sig-row">
+            <div class="sig-label">Dominant formats</div>
+            <div class="sig-chips" data-sig-formats></div>
+          </div>
+          <hr class="hairline" />
+          <div class="sig-row">
+            <div class="sig-label">Common subjects</div>
+            <div class="sig-chips" data-sig-subjects></div>
+          </div>
+          <hr class="hairline" />
+          <div class="sig-row">
+            <div class="sig-label">Top performers</div>
+            <div class="sig-perf" data-sig-perf></div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <template id="tpl-settings">
-  <section class="app-section reveal in">
-    <header class="app-header">
-      <a class="brand-mini" href="#home"><span class="brand-dot"></span><span>Precense</span></a>
-    </header>
-
-    <div class="greeting reveal">
+  <div class="page-single-narrow">
+    <div class="hero-block reveal in">
       <div class="eyebrow">SETTINGS</div>
-      <h1 class="display">Fine-<em>tune</em>.</h1>
+      <h1 class="h1-lg">Fine-<em>tune</em>.</h1>
     </div>
 
     <div class="settings-group-title">SUBSCRIPTION</div>
-    <div class="settings-group reveal">
+    <div class="settings-group reveal in">
       <div class="settings-row">
         <div class="settings-row-label">Plan</div>
         <div class="settings-row-value">Waitlist · early access</div>
@@ -167,52 +265,43 @@
     </div>
 
     <div class="settings-group-title">LEGAL</div>
-    <div class="settings-group reveal">
+    <div class="settings-group reveal in">
       <div class="settings-row">
         <div class="settings-row-label">Terms of Service</div>
-        <div class="settings-row-value settings-row-chev">›</div>
+        <div class="settings-row-value settings-row-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></div>
       </div>
       <div class="settings-row">
         <div class="settings-row-label">Privacy Policy</div>
-        <div class="settings-row-value settings-row-chev">›</div>
+        <div class="settings-row-value settings-row-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></div>
       </div>
     </div>
 
     <div class="settings-group-title">DANGER ZONE</div>
-    <div class="settings-group reveal">
+    <div class="settings-group reveal in">
       <div class="settings-row" onclick="openSheet('delete')">
         <div class="settings-row-label settings-row-danger">Delete account</div>
-        <div class="settings-row-value settings-row-chev">›</div>
+        <div class="settings-row-value settings-row-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <template id="tpl-saved">
-  <section class="app-section reveal in">
-    <header class="app-header">
-      <a class="brand-mini" href="#home"><span class="brand-dot"></span><span>Precense</span></a>
-    </header>
-    <div class="greeting reveal">
+  <div class="page-single-narrow">
+    <div class="hero-block reveal in">
       <div class="eyebrow">SAVED</div>
-      <h1 class="display">Your <em>keepers</em>.</h1>
+      <h1 class="h1-lg">Your <em>keepers</em>.</h1>
       <p class="lede">Cards you've hearted show up here. Tap any card in your feed to save it.</p>
     </div>
-    <div class="empty-hint reveal">
+    <div class="empty-hint reveal in">
       <p>Nothing saved yet.</p>
     </div>
-  </section>
+  </div>
 </template>
 
-<!-- Bottom sheet (Delete confirm) -->
+<!-- Bottom sheet -->
 <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheet()"></div>
-<aside class="sheet" id="sheet" role="dialog" aria-hidden="true">
-  <div class="sheet-icon">⚠</div>
-  <h2 class="sheet-title">Delete account?</h2>
-  <p class="sheet-body">This wipes your signature, every teardown, and unlinks the bot. Not reversible.</p>
-  <button class="btn btn-primary sheet-cta" onclick="closeSheet()">Keep my account</button>
-  <span class="sheet-not-now" onclick="closeSheet()">Actually delete</span>
-</aside>
+<aside class="sheet" id="sheet" role="dialog" aria-hidden="true"></aside>
 
 <script src="/app/app.js"></script>
 </body>
