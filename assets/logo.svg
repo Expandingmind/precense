@@ -12,5 +12,5 @@
     <path d="M 136 118 L 136 136 L 118 136"/>
   </g>
   <!-- Italic serif P -->
-  <text class="p" x="80" y="112" text-anchor="middle" font-size="110" fill="currentColor">P</text>
+  <text class="p" x="80" y="102" text-anchor="middle" font-size="80" fill="currentColor">P</text>
 </svg>

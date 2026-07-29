@@ -6,5 +6,5 @@
     <path d="M 32 128 L 32 148 L 52 148"/>
     <path d="M 148 128 L 148 148 L 128 148"/>
   </g>
-  <text x="90" y="128" text-anchor="middle" font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="126" fill="#ece1c9">P</text>
+  <text x="90" y="118" text-anchor="middle" font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="92" fill="#ece1c9">P</text>
 </svg>
