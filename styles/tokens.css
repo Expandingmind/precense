@@ -1,9 +1,9 @@
 /* Precense — shared design tokens. Imported by landing + /app. */
 
 :root{
-  /* Canvas — warm beige, subtle vertical gradient */
-  --canvas-top: #ece1c9;
-  --canvas-bottom: #dcccaa;
+  /* Canvas — light warm beige, subtle vertical gradient */
+  --canvas-top: #f5efe0;
+  --canvas-bottom: #ece1c9;
   --canvas: var(--canvas-top);
   --canvas-gradient: linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-bottom) 100%);
 

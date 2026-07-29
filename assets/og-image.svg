@@ -2,8 +2,8 @@
   <!-- Warm beige gradient background -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ece1c9"/>
-      <stop offset="1" stop-color="#dcccaa"/>
+      <stop offset="0" stop-color="#f5efe0"/>
+      <stop offset="1" stop-color="#ece1c9"/>
     </linearGradient>
     <radialGradient id="glow1" cx="82%" cy="12%" r="55%">
       <stop offset="0" stop-color="#14402f" stop-opacity="0.14"/>
