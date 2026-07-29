@@ -15,7 +15,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 (function () {
   const nav = document.querySelector('.nav');
   if (!nav) return;
-  const THRESHOLD = 32;
+  const THRESHOLD = 48;
   let raf = null;
   function apply() {
     raf = null;
