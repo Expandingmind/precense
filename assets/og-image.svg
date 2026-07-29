@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Warm beige gradient background -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ece1c9"/>
+      <stop offset="1" stop-color="#dcccaa"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="82%" cy="12%" r="55%">
+      <stop offset="0" stop-color="#14402f" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#14402f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="8%" cy="90%" r="55%">
+      <stop offset="0" stop-color="#a97e3d" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#a97e3d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Precense mark, top left -->
+  <g transform="translate(80, 80)">
+    <g fill="none" stroke="#14402f" stroke-width="4" stroke-linecap="round">
+      <path d="M 6 20 L 6 6 L 20 6"/>
+      <path d="M 62 20 L 62 6 L 48 6"/>
+      <path d="M 6 48 L 6 62 L 20 62"/>
+      <path d="M 62 48 L 62 62 L 48 62"/>
+    </g>
+    <text x="34" y="52" text-anchor="middle" font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="52" fill="#14402f">P</text>
+    <text x="88" y="47" font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="36" fill="#14402f">Precense</text>
+  </g>
+
+  <!-- Wordmark headline centered -->
+  <g transform="translate(600, 340)" text-anchor="middle">
+    <text font-family="Manrope, system-ui, sans-serif" font-size="18" letter-spacing="4" fill="#7a7a6c" y="-140">A CONTENT STRATEGIST · IN YOUR DMS</text>
+    <text font-family="'Instrument Serif','Times New Roman',serif" font-size="120" fill="#14211a" y="-30" letter-spacing="-3">The agent that</text>
+    <text font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="120" fill="#14211a" y="100" letter-spacing="-3">studies your feed.</text>
+    <text font-family="Manrope, system-ui, sans-serif" font-size="22" fill="#48524a" y="180">precense.vercel.app</text>
+  </g>
+</svg>

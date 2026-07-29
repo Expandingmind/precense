@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="40" fill="#14402f"/>
+  <g fill="none" stroke="#ece1c9" stroke-width="10" stroke-linecap="round">
+    <path d="M 32 52 L 32 32 L 52 32"/>
+    <path d="M 148 52 L 148 32 L 128 32"/>
+    <path d="M 32 128 L 32 148 L 52 148"/>
+    <path d="M 148 128 L 148 148 L 128 148"/>
+  </g>
+  <text x="90" y="128" text-anchor="middle" font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="126" fill="#ece1c9">P</text>
+</svg>

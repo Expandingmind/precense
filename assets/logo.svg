@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Precense">
+  <defs>
+    <style>
+      .p { font-family: 'Instrument Serif', 'Times New Roman', serif; font-style: italic; }
+    </style>
+  </defs>
+  <!-- Viewfinder corner brackets -->
+  <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round">
+    <path d="M 24 42 L 24 24 L 42 24"/>
+    <path d="M 136 42 L 136 24 L 118 24"/>
+    <path d="M 24 118 L 24 136 L 42 136"/>
+    <path d="M 136 118 L 136 136 L 118 136"/>
+  </g>
+  <!-- Italic serif P -->
+  <text class="p" x="80" y="112" text-anchor="middle" font-size="110" fill="currentColor">P</text>
+</svg>
