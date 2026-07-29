@@ -22,16 +22,18 @@
 .btn-sm { padding: .5rem 1rem; font-size: .85rem; }
 .btn-lg { padding: 1rem 1.75rem; font-size: 1rem; }
 .btn-primary {
-  background: var(--ink);
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-on);
   box-shadow: var(--shadow-sm);
 }
 .btn-primary:hover {
+  background: var(--accent-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
 .btn-primary.btn-accent {
   background: var(--accent);
+  color: var(--accent-on);
 }
 .btn-primary.btn-accent:hover { background: var(--accent-hover); }
 .btn-ghost {

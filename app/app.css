@@ -73,7 +73,7 @@
 .side-user:hover { background: var(--surface); }
 .side-user-avatar {
   width: 36px; height: 36px; border-radius: 50%;
-  background: var(--ink); color: #fff;
+  background: var(--accent); color: var(--accent-on);
   display: grid; place-items: center;
   font-family: var(--font-serif);
   font-size: 1.05rem;
@@ -260,7 +260,7 @@
 }
 .profile-avatar-lg {
   width: 68px; height: 68px; border-radius: 50%;
-  background: var(--ink); color: #fff;
+  background: var(--accent); color: var(--accent-on);
   display: grid; place-items: center;
   font-family: var(--font-serif);
   font-size: 2rem; font-weight: 400; font-style: italic;

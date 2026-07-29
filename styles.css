@@ -42,9 +42,10 @@
   display: flex; align-items: center; justify-content: space-between;
   height: 64px;
   gap: 1.5rem;
-  padding: 0 1.25rem;
-  transition: height var(--dur-morph) var(--ease-spring);
+  padding: 0 2.5rem;
+  transition: height var(--dur-morph) var(--ease-spring), padding var(--dur-morph) var(--ease-spring);
 }
+.nav.is-scrolled .nav-inner { padding: 0 1.75rem; }
 /* Spacer so page content doesn't jump under the fixed nav */
 body::after { content: ''; display: block; height: 84px; }
 
@@ -299,7 +300,7 @@ body::after { content: ''; display: block; height: 84px; }
 }
 .reply-avatar {
   width: 40px; height: 40px; border-radius: 50%;
-  background: var(--ink); color: #fff;
+  background: var(--accent); color: var(--accent-on);
   display: grid; place-items: center;
   font-family: var(--font-serif); font-size: 1.2rem; font-style: italic;
 }
