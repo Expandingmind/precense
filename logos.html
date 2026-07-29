@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Precense — Logo concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css" />
+<link rel="stylesheet" href="/styles/components.css" />
+<style>
+  body { padding: 3rem 2rem 5rem; }
+  .wrap-logos { max-width: 1180px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 3rem; }
+  .header .eyebrow { display: inline-block; margin-bottom: 1rem; }
+  .concepts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) { .concepts { grid-template-columns: 1fr; } }
+  .concept {
+    padding: 0;
+    overflow: hidden;
+  }
+  .concept-stage {
+    padding: 3.5rem 2rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+    background: color-mix(in oklab, var(--canvas-top) 92%, white);
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .concept-mark { display: flex; align-items: center; justify-content: center; }
+  .concept-wordmark { display: flex; align-items: center; gap: .5rem; }
+  .concept-info {
+    padding: 1.5rem 1.75rem 1.75rem;
+  }
+  .concept-title {
+    font-family: var(--font-serif);
+    font-size: 1.55rem;
+    line-height: 1.1;
+    margin: 0 0 .35rem;
+  }
+  .concept-title em { font-style: italic; }
+  .concept-idea {
+    font-family: var(--font-sans);
+    font-size: .95rem;
+    color: var(--ink-3);
+    margin: 0 0 .75rem;
+    line-height: 1.5;
+  }
+  .concept-meta {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    font-family: var(--font-sans);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .concept-meta span { padding: .3rem .55rem; border-radius: var(--r-pill); background: var(--surface-alt); border: 1px solid var(--border-hairline); }
+
+  /* mini + favicon strip at bottom of each concept */
+  .concept-sizes {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1rem 1.75rem 1.5rem;
+    border-top: 1px solid var(--border-hairline);
+    background: color-mix(in oklab, var(--canvas-top) 82%, white);
+  }
+  .size-label { font-family: var(--font-sans); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mute); margin-right: .35rem; }
+  .size-16 { width: 16px; height: 16px; }
+  .size-24 { width: 24px; height: 24px; }
+  .size-32 { width: 32px; height: 32px; }
+
+  .dark { background: var(--accent); color: var(--accent-on); }
+  .dark .concept-stage { background: var(--accent); border-color: color-mix(in oklab, var(--accent) 60%, black); }
+  .dark .concept-info, .dark .concept-sizes { background: var(--accent-hover); color: var(--accent-on); border-color: color-mix(in oklab, var(--accent) 60%, black); }
+  .dark .concept-info .concept-idea, .dark .concept-info .concept-meta { color: color-mix(in oklab, var(--accent-on) 70%, transparent); }
+  .dark .concept-meta span { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+</style>
+</head>
+<body>
+<div class="wrap-logos">
+  <header class="header">
+    <div class="eyebrow">LOGO EXPLORATION</div>
+    <h1 class="display" style="font-size: clamp(2rem,4vw,3rem);">Four <em>directions</em> for Precense.</h1>
+    <p class="lede" style="margin: 1rem auto 0;">Each one encodes a different single idea. Pick a direction and I'll refine it — kerning, weight, monogram tuning, favicon crop, motion.</p>
+  </header>
+
+  <div class="concepts">
+
+    <!-- 1. P-EYE (aperture) -->
+    <div class="concept card">
+      <div class="concept-stage">
+        <div class="concept-mark">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Italic serif P with an eye-aperture counter -->
+            <g fill="none" stroke="#14402f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Stem -->
+              <path d="M 62 30 L 46 130" />
+              <!-- Bowl -->
+              <path d="M 62 30 L 96 30 Q 122 30 122 58 Q 122 82 96 82 L 54 82" />
+            </g>
+            <!-- Aperture pupil inside the bowl -->
+            <ellipse cx="88" cy="56" rx="14" ry="9" fill="none" stroke="#14402f" stroke-width="4"/>
+            <circle cx="88" cy="56" r="5" fill="#14402f"/>
+          </svg>
+        </div>
+        <div class="concept-wordmark">
+          <svg width="26" height="26" viewBox="0 0 160 160">
+            <g fill="none" stroke="#14402f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 62 30 L 46 130" />
+              <path d="M 62 30 L 96 30 Q 122 30 122 58 Q 122 82 96 82 L 54 82" />
+            </g>
+            <ellipse cx="88" cy="56" rx="14" ry="9" fill="none" stroke="#14402f" stroke-width="5"/>
+            <circle cx="88" cy="56" r="5" fill="#14402f"/>
+          </svg>
+          <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:2rem;letter-spacing:-.01em;color:#14402f;">Precense</span>
+        </div>
+      </div>
+      <div class="concept-info">
+        <h3 class="concept-title">01 · The <em>Aperture</em></h3>
+        <p class="concept-idea">Italic serif P with a subtle eye/aperture inside the bowl. Precense literally watches — the counter becomes the pupil. Ties directly to the product function without being creepy-surveillance.</p>
+        <div class="concept-meta"><span>Symbolic</span><span>Editorial</span><span>Small-mark friendly</span></div>
+      </div>
+      <div class="concept-sizes">
+        <span class="size-label">FAVICON</span>
+        <svg class="size-16" viewBox="0 0 160 160"><rect width="160" height="160" fill="#14402f" rx="30"/><g fill="none" stroke="#ece1c9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M 62 30 L 46 130"/><path d="M 62 30 L 96 30 Q 122 30 122 58 Q 122 82 96 82 L 54 82"/></g><circle cx="88" cy="56" r="6" fill="#ece1c9"/></svg>
+        <svg class="size-24" viewBox="0 0 160 160"><rect width="160" height="160" fill="#14402f" rx="30"/><g fill="none" stroke="#ece1c9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M 62 30 L 46 130"/><path d="M 62 30 L 96 30 Q 122 30 122 58 Q 122 82 96 82 L 54 82"/></g><circle cx="88" cy="56" r="6" fill="#ece1c9"/></svg>
+        <svg class="size-32" viewBox="0 0 160 160"><rect width="160" height="160" fill="#14402f" rx="30"/><g fill="none" stroke="#ece1c9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M 62 30 L 46 130"/><path d="M 62 30 L 96 30 Q 122 30 122 58 Q 122 82 96 82 L 54 82"/></g><circle cx="88" cy="56" r="6" fill="#ece1c9"/></svg>
+      </div>
+    </div>
+
+    <!-- 2. FRAMED P (viewfinder) -->
+    <div class="concept card">
+      <div class="concept-stage">
+        <div class="concept-mark">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Viewfinder corner marks -->
+            <g fill="none" stroke="#14402f" stroke-width="6" stroke-linecap="round">
+              <path d="M 24 42 L 24 24 L 42 24" />
+              <path d="M 136 42 L 136 24 L 118 24" />
+              <path d="M 24 118 L 24 136 L 42 136" />
+              <path d="M 136 118 L 136 136 L 118 136" />
+            </g>
+            <!-- Italic serif P inside -->
+            <text x="80" y="112" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="110" fill="#14402f">P</text>
+          </svg>
+        </div>
+        <div class="concept-wordmark">
+          <svg width="26" height="26" viewBox="0 0 160 160">
+            <g fill="none" stroke="#14402f" stroke-width="8" stroke-linecap="round">
+              <path d="M 24 42 L 24 24 L 42 24"/>
+              <path d="M 136 42 L 136 24 L 118 24"/>
+              <path d="M 24 118 L 24 136 L 42 136"/>
+              <path d="M 136 118 L 136 136 L 118 136"/>
+            </g>
+            <text x="80" y="112" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="110" fill="#14402f">P</text>
+          </svg>
+          <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:2rem;letter-spacing:-.01em;color:#14402f;">Precense</span>
+        </div>
+      </div>
+      <div class="concept-info">
+        <h3 class="concept-title">02 · The <em>Viewfinder</em></h3>
+        <p class="concept-idea">Serif P inside camera-viewfinder corner brackets. Precense frames what you post — puts it in focus. Directly signals video without any camera cliché.</p>
+        <div class="concept-meta"><span>Literal</span><span>Video-native</span><span>Reads as tool</span></div>
+      </div>
+      <div class="concept-sizes">
+        <span class="size-label">FAVICON</span>
+        <svg class="size-16" viewBox="0 0 160 160"><rect width="160" height="160" fill="#14402f" rx="30"/><g fill="none" stroke="#ece1c9" stroke-width="8" stroke-linecap="round"><path d="M 30 46 L 30 30 L 46 30"/><path d="M 130 46 L 130 30 L 114 30"/><path d="M 30 114 L 30 130 L 46 130"/><path d="M 130 114 L 130 130 L 114 130"/></g><text x="80" y="112" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="100" fill="#ece1c9">P</text></svg>
+        <svg class="size-24" viewBox="0 0 160 160"><rect width="160" height="160" fill="#14402f" rx="30"/><g fill="none" stroke="#ece1c9" stroke-width="8" stroke-linecap="round"><path d="M 30 46 L 30 30 L 46 30"/><path d="M 130 46 L 130 30 L 114 30"/><path d="M 30 114 L 30 130 L 46 130"/><path d="M 130 114 L 130 130 L 114 130"/></g><text x="80" y="112" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="100" fill="#ece1c9">P</text></svg>
+        <svg class="size-32" viewBox="0 0 160 160"><rect width="160" height="160" fill="#14402f" rx="30"/><g fill="none" stroke="#ece1c9" stroke-width="8" stroke-linecap="round"><path d="M 30 46 L 30 30 L 46 30"/><path d="M 130 46 L 130 30 L 114 30"/><path d="M 30 114 L 30 130 L 46 130"/><path d="M 130 114 L 130 130 L 114 130"/></g><text x="80" y="112" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="100" fill="#ece1c9">P</text></svg>
+      </div>
+    </div>
+
+    <!-- 3. P + WAVE (retention curve) -->
+    <div class="concept card">
+      <div class="concept-stage">
+        <div class="concept-mark">
+          <svg width="200" height="160" viewBox="0 0 200 160">
+            <!-- Italic serif P glyph -->
+            <text x="70" y="120" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="140" fill="#14402f">P</text>
+            <!-- Waveform under it, right of the descender -->
+            <g fill="none" stroke="#14402f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 100 128 Q 116 100, 130 128 Q 144 156, 158 118 Q 172 90, 186 128" />
+            </g>
+            <!-- Dot marker at hook-point -->
+            <circle cx="158" cy="118" r="4.5" fill="#a97e3d"/>
+          </svg>
+        </div>
+        <div class="concept-wordmark">
+          <svg width="28" height="26" viewBox="0 0 200 160">
+            <text x="70" y="120" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="140" fill="#14402f">P</text>
+            <g fill="none" stroke="#14402f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 100 128 Q 116 100, 130 128 Q 144 156, 158 118 Q 172 90, 186 128"/>
+            </g>
+            <circle cx="158" cy="118" r="6" fill="#a97e3d"/>
+          </svg>
+          <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:2rem;letter-spacing:-.01em;color:#14402f;">Precense</span>
+        </div>
+      </div>
+      <div class="concept-info">
+        <h3 class="concept-title">03 · The <em>Signal</em></h3>
+        <p class="concept-idea">Italic P beside a small retention wave with a marked peak. Encodes the actual job: watching curves, spotting the peak, calling out the moment. Gold dot echoes the tertiary accent.</p>
+        <div class="concept-meta"><span>Functional</span><span>Analytical</span><span>Distinctive</span></div>
+      </div>
+      <div class="concept-sizes">
+        <span class="size-label">FAVICON</span>
+        <svg class="size-16" viewBox="0 0 200 160"><rect width="200" height="160" fill="#14402f" rx="30"/><text x="70" y="120" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="140" fill="#ece1c9">P</text><g fill="none" stroke="#ece1c9" stroke-width="8" stroke-linecap="round"><path d="M 100 128 Q 116 100, 130 128 Q 144 156, 158 118 Q 172 90, 186 128"/></g><circle cx="158" cy="118" r="7" fill="#a97e3d"/></svg>
+        <svg class="size-24" viewBox="0 0 200 160"><rect width="200" height="160" fill="#14402f" rx="30"/><text x="70" y="120" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="140" fill="#ece1c9">P</text><g fill="none" stroke="#ece1c9" stroke-width="8" stroke-linecap="round"><path d="M 100 128 Q 116 100, 130 128 Q 144 156, 158 118 Q 172 90, 186 128"/></g><circle cx="158" cy="118" r="7" fill="#a97e3d"/></svg>
+        <svg class="size-32" viewBox="0 0 200 160"><rect width="200" height="160" fill="#14402f" rx="30"/><text x="70" y="120" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="140" fill="#ece1c9">P</text><g fill="none" stroke="#ece1c9" stroke-width="8" stroke-linecap="round"><path d="M 100 128 Q 116 100, 130 128 Q 144 156, 158 118 Q 172 90, 186 128"/></g><circle cx="158" cy="118" r="7" fill="#a97e3d"/></svg>
+      </div>
+    </div>
+
+    <!-- 4. WAX SEAL / EMBLEM -->
+    <div class="concept card dark">
+      <div class="concept-stage">
+        <div class="concept-mark">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <!-- Outer decorative ring -->
+            <circle cx="90" cy="90" r="80" fill="none" stroke="#ece1c9" stroke-width="2"/>
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#ece1c9" stroke-width="1" stroke-dasharray="1 4"/>
+            <!-- Central P monogram -->
+            <text x="90" y="122" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="115" fill="#ece1c9">P</text>
+            <!-- Little ornamental dots -->
+            <circle cx="90" cy="26" r="2.5" fill="#ece1c9"/>
+            <circle cx="90" cy="154" r="2.5" fill="#ece1c9"/>
+            <circle cx="26" cy="90" r="2.5" fill="#ece1c9"/>
+            <circle cx="154" cy="90" r="2.5" fill="#ece1c9"/>
+            <!-- Est. line -->
+            <text x="90" y="152" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" letter-spacing="4" fill="#a97e3d">EST · 2026</text>
+          </svg>
+        </div>
+        <div class="concept-wordmark">
+          <svg width="26" height="26" viewBox="0 0 180 180">
+            <circle cx="90" cy="90" r="80" fill="#14402f" stroke="#14402f" stroke-width="2"/>
+            <text x="90" y="122" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="115" fill="#ece1c9">P</text>
+          </svg>
+          <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:2rem;letter-spacing:-.01em;color:#ece1c9;">Precense</span>
+        </div>
+      </div>
+      <div class="concept-info">
+        <h3 class="concept-title">04 · The <em>Seal</em></h3>
+        <p class="concept-idea">A stamped monogram — italic P inside a circular emblem with a dashed inner ring and cardinal dots. Reads like a personal signature stamp or a magazine masthead badge. Leans hardest into the editorial/premium direction.</p>
+        <div class="concept-meta"><span>Editorial</span><span>Ceremonial</span><span>Recognizable at any size</span></div>
+      </div>
+      <div class="concept-sizes">
+        <span class="size-label" style="color:rgba(255,255,255,0.6)">FAVICON</span>
+        <svg class="size-16" viewBox="0 0 180 180"><rect width="180" height="180" fill="#ece1c9" rx="34"/><circle cx="90" cy="90" r="80" fill="#14402f"/><text x="90" y="122" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="115" fill="#ece1c9">P</text></svg>
+        <svg class="size-24" viewBox="0 0 180 180"><rect width="180" height="180" fill="#ece1c9" rx="34"/><circle cx="90" cy="90" r="80" fill="#14402f"/><text x="90" y="122" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="115" fill="#ece1c9">P</text></svg>
+        <svg class="size-32" viewBox="0 0 180 180"><rect width="180" height="180" fill="#ece1c9" rx="34"/><circle cx="90" cy="90" r="80" fill="#14402f"/><text x="90" y="122" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="115" fill="#ece1c9">P</text></svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
