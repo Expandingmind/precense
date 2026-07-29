@@ -1,4 +1,4 @@
-// Precense app SPA — hash-routed.
+// Precense app SPA — hash-routed. Requires an authenticated session.
 
 const VIEWS = ['home', 'saved', 'profile', 'settings'];
 const view = document.getElementById('view');
@@ -8,24 +8,34 @@ const mobileNav = document.getElementById('mobile-nav');
 const ICON_PLAY = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const ICON_HEART = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
 const ICON_CLOCK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-const ICON_SPARK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>`;
-const ICON_ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>`;
 
-let state = { loading: true, data: null, error: null };
+let state = { data: null, error: null, session: null };
 
-// -------- data --------
-async function loadData() {
-  const params = new URLSearchParams(window.location.search);
-  const handle = params.get('u') || '';
+// -------- boot: require auth --------
+async function boot() {
   try {
-    const res = await fetch(`/api/user-data?u=${encodeURIComponent(handle)}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    state.data = await res.json();
+    state.session = await window.precenseAuth.getSession();
+  } catch (e) {
+    console.warn('auth check', e);
+  }
+  if (!state.session) {
+    window.location.href = '/';
+    return;
+  }
+  await loadData();
+  // If they authed but have no linked user row, prompt for Telegram handle.
+  if (state.data?.needs_link) {
+    openLinkSheet();
+  }
+  render();
+}
+
+async function loadData() {
+  try {
+    state.data = await window.precenseAuth.fetchUserData();
   } catch (e) {
     state.error = e.message;
     state.data = null;
-  } finally {
-    state.loading = false;
   }
 }
 
@@ -39,16 +49,13 @@ function render() {
   const v = currentView();
   const tpl = document.getElementById(`tpl-${v}`);
   if (!tpl) return;
-
   view.innerHTML = '';
   view.appendChild(tpl.content.cloneNode(true));
-
   updateNav(v);
   hydrateSide();
   hydrate(v);
   wireReveals();
   showDemoNoteIfNeeded();
-
   requestAnimationFrame(() => window.scrollTo({ top: 0 }));
 }
 
@@ -72,30 +79,36 @@ function wireReveals() {
 // -------- hydration --------
 function hydrateSide() {
   const u = state.data?.user || {};
-  const initial = (u.first_name || u.handle || 'P').charAt(0).toUpperCase();
+  const initial = (u.first_name || u.handle || u.email || 'P').charAt(0).toUpperCase();
   document.querySelectorAll('[data-profile-initial]').forEach((el) => (el.textContent = initial));
   const nameEl = document.querySelector('[data-side-name]');
   const handleEl = document.querySelector('[data-side-handle]');
-  if (nameEl) nameEl.textContent = u.first_name || u.handle || 'Guest';
-  if (handleEl) handleEl.textContent = u.handle ? `@${u.handle}` : '@—';
+  if (nameEl) nameEl.textContent = u.first_name || u.handle || u.email || 'Guest';
+  if (handleEl) handleEl.textContent = u.handle ? `@${u.handle}` : (u.email ? u.email : '@—');
 }
 
 function hydrate(v) {
   const d = state.data;
-  if (!d) return;
+  if (!d || d.needs_link) {
+    // Render empty-state hydration
+    if (v === 'home') {
+      const nameEl = view.querySelector('[data-greeting-name]');
+      if (nameEl) nameEl.textContent = 'there';
+    }
+    return;
+  }
   if (v === 'home') hydrateHome(d);
   if (v === 'profile') hydrateProfile(d);
 }
 
 function hydrateHome(d) {
   const nameEl = view.querySelector('[data-greeting-name]');
-  const firstName = (d.user?.first_name || d.user?.handle || 'friend').split(' ')[0];
+  const firstName = (d.user?.first_name || d.user?.handle || d.user?.email?.split('@')[0] || 'friend').split(' ')[0];
   if (nameEl) nameEl.textContent = capitalize(firstName);
 
   const todayEl = view.querySelector('[data-today]');
   if (todayEl) todayEl.textContent = new Date().toLocaleDateString(undefined, { weekday: 'long' });
 
-  // Rail — signature summary + count
   const sig = d.signature || {};
   fillChips('[data-rail-hooks]', sig.dominant_hook_types, 'nothing yet');
   fillChips('[data-rail-formats]', sig.dominant_formats, 'nothing yet');
@@ -103,7 +116,6 @@ function hydrateHome(d) {
   const railCount = view.querySelector('[data-rail-count]');
   if (railCount) railCount.textContent = String(sig.video_count || 0);
 
-  // Feed
   const feedEl = view.querySelector('#feed');
   const emptyHint = view.querySelector('#empty-hint');
   if (!feedEl) return;
@@ -154,11 +166,11 @@ function shortenTake(reply) {
 
 function paletteFor(seed) {
   const palettes = [
-    'linear-gradient(160deg, #2d2419 0%, #6b4a2b 55%, #b48a55 100%)', // amber
-    'linear-gradient(160deg, #1a2b26 0%, #2e5548 55%, #5c8f7e 100%)', // forest
-    'linear-gradient(160deg, #241a26 0%, #4e2f56 55%, #825982 100%)', // plum
-    'linear-gradient(160deg, #1a222d 0%, #2f4562 55%, #5f7ba0 100%)', // slate
-    'linear-gradient(160deg, #2d2820 0%, #5c4f36 55%, #98835d 100%)', // olive
+    'linear-gradient(160deg, #2d2419 0%, #6b4a2b 55%, #b48a55 100%)',
+    'linear-gradient(160deg, #1a2b26 0%, #2e5548 55%, #5c8f7e 100%)',
+    'linear-gradient(160deg, #241a26 0%, #4e2f56 55%, #825982 100%)',
+    'linear-gradient(160deg, #1a222d 0%, #2f4562 55%, #5f7ba0 100%)',
+    'linear-gradient(160deg, #2d2820 0%, #5c4f36 55%, #98835d 100%)',
   ];
   let h = 0; for (const c of String(seed)) h = (h * 31 + c.charCodeAt(0)) | 0;
   return palettes[Math.abs(h) % palettes.length];
@@ -214,25 +226,18 @@ function fillChips(sel, arr, empty) {
   el.innerHTML = arr.map((x) => `<span class="sig-chip">${escapeHtml(x)}</span>`).join('');
 }
 
-function setAll(sel, val) {
-  document.querySelectorAll(sel).forEach((el) => (el.textContent = val));
-}
-
+function setAll(sel, val) { document.querySelectorAll(sel).forEach((el) => (el.textContent = val)); }
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function escapeAttr(s) { return escapeHtml(s); }
 
 // -------- demo note --------
 function showDemoNoteIfNeeded() {
-  const existing = document.querySelector('.demo-note');
-  if (existing) existing.remove();
-  const d = state.data;
-  if (d?.demo) {
+  document.querySelectorAll('.demo-note').forEach((n) => n.remove());
+  if (state.data?.demo) {
     const note = document.createElement('div');
     note.className = 'demo-note';
-    note.textContent = d.notFound ? `demo · handle "${d.notFound}" not found` : 'demo · add ?u=<handle> for real data';
+    note.textContent = 'demo · no data yet';
     document.body.appendChild(note);
   }
 }
@@ -286,11 +291,52 @@ window.closeSheet = function () {
   sheetBackdrop.setAttribute('data-open', 'false');
 };
 
+function openLinkSheet() {
+  if (!sheetBody) return;
+  const tpl = document.getElementById('tpl-link-sheet');
+  if (!tpl) return;
+  sheetBody.innerHTML = '';
+  sheetBody.appendChild(tpl.content.cloneNode(true));
+  sheetBody.setAttribute('data-open', 'true');
+  sheetBackdrop.setAttribute('data-open', 'true');
+}
+
+window.linkHandleSubmit = async function (formEl) {
+  const input = formEl.querySelector('input');
+  const errEl = document.getElementById('link-err');
+  const val = input.value.trim();
+  if (!val) return;
+  errEl.hidden = true;
+  try {
+    await window.precenseAuth.linkTelegramHandle(val);
+    closeSheet();
+    await loadData();
+    render();
+  } catch (e) {
+    // If no telegram row found, offer to create a placeholder auth-only row
+    const msg = String(e.message || e);
+    if (/no telegram user found/i.test(msg)) {
+      try {
+        await window.precenseAuth.ensureAuthUserRow();
+        closeSheet();
+        await loadData();
+        render();
+        return;
+      } catch (e2) {
+        errEl.textContent = e2.message || String(e2);
+        errEl.hidden = false;
+        return;
+      }
+    }
+    errEl.textContent = msg;
+    errEl.hidden = false;
+  }
+};
+
+window.signOut = async function () { await window.precenseAuth.signOut(); };
+
 // -------- bootstrap --------
 window.addEventListener('hashchange', render);
 window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 
-(async function boot() {
-  await loadData();
-  render();
-})();
+boot();

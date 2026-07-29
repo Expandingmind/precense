@@ -303,6 +303,24 @@
 <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheet()"></div>
 <aside class="sheet" id="sheet" role="dialog" aria-hidden="true"></aside>
 
+<!-- Onboarding sheet template (post-auth Telegram link) -->
+<template id="tpl-link-sheet">
+  <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></div>
+  <h2 class="sheet-title">Link your <em>Telegram</em>.</h2>
+  <p class="sheet-body">Enter the Telegram username you use to DM Precense so we can pair your account with your forwards. You can skip and add it later.</p>
+  <form onsubmit="event.preventDefault(); linkHandleSubmit(this);" style="display:flex; flex-direction:column; gap:.75rem;">
+    <div class="pill-input" style="width:100%">
+      <input type="text" placeholder="@your_telegram_handle" autocapitalize="off" autocomplete="off" spellcheck="false" required />
+      <button class="pill-input-send" type="submit" aria-label="Link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+    </div>
+    <div class="signin-error" id="link-err" hidden></div>
+  </form>
+  <span class="sheet-not-now" onclick="closeSheet()">Skip for now</span>
+</template>
+
+<script src="/js/auth.js"></script>
 <script src="/app/app.js"></script>
 </body>
 </html>

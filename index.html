@@ -27,8 +27,7 @@
       <a href="#channels">Channels</a>
     </nav>
     <div class="nav-cta">
-      <a href="/app/" class="btn btn-ghost btn-sm">Open app</a>
-      <a href="#waitlist" class="btn btn-primary btn-sm">Join waitlist</a>
+      <button class="btn btn-ghost btn-sm" onclick="signInWithProvider('google')" id="nav-signin">Sign in</button>
     </div>
   </div>
 </header>
@@ -36,58 +35,59 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-inner reveal">
-      <div class="eyebrow hero-eyebrow">A CONTENT STRATEGIST · IN YOUR DMS</div>
-      <h1 class="display hero-headline">
-        The agent that <em>studies</em> your feed.
-      </h1>
-      <p class="lede hero-lede">Forward your reels, TikToks and shorts to Precense like you'd send them to a friend. It watches what actually goes viral, learns your signature — and tells you exactly what to make next.</p>
+    <div class="hero-grid">
+      <div class="hero-inner reveal">
+        <div class="eyebrow hero-eyebrow">A CONTENT STRATEGIST · IN YOUR DMS</div>
+        <h1 class="display hero-headline">
+          The agent that <em>studies</em> your feed.
+        </h1>
+        <p class="lede hero-lede">Forward your reels, TikToks and shorts to Precense like you'd send them to a friend. It watches what actually goes viral, learns your signature — and tells you exactly what to make next.</p>
 
-      <form class="pill-input hero-pill" onsubmit="event.preventDefault(); joinWaitlist(this);">
-        <input type="email" required placeholder="you@studio.com" aria-label="Email" />
-        <button class="pill-input-send" type="submit" aria-label="Join waitlist">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
-        </button>
-      </form>
-      <div class="wl-msg" id="hero-wl-msg"></div>
-
-      <div class="hero-meta">
-        <span class="badge-soft"><span class="dot" style="color:var(--accent)"></span>Telegram live</span>
-        <span class="badge-soft badge-neutral">WhatsApp at launch</span>
-        <span class="badge-soft badge-gold">Never a dashboard</span>
-      </div>
-    </div>
-
-    <!-- hero visual: composed row of ContentCards showing what Precense sends back -->
-    <div class="hero-visual reveal">
-      <div class="hero-visual-card hero-visual-card--main">
-        <div class="content-card">
-          <div class="content-card-thumb" style="background:linear-gradient(160deg, #2d2419 0%, #6b4a2b 55%, #b48a55 100%);"></div>
-          <div class="content-card-top">
-            <span class="content-card-badge" data-tone="gold">3.4× your median</span>
-            <button class="content-card-heart" data-active="true" aria-label="Saved"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          </div>
-          <div class="content-card-take"><em>your fastest hook ever landed at 0:00.4.</em></div>
+        <div class="signin-card card" id="signin-card">
+          <div class="signin-title">Sign in to continue</div>
+          <button class="signin-btn signin-btn-google" onclick="signInWithProvider('google')">
+            <svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.3l7.8 6.1C12.2 13.1 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.9 7.2l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.6z"/><path fill="#FBBC05" d="M10.4 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.2 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.4 0-11.8-3.6-13.6-8.6l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+          <button class="signin-btn signin-btn-apple" onclick="signInWithProvider('apple')">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            <span>Continue with Apple</span>
+          </button>
+          <div class="signin-sub">Free while in beta. No card required.</div>
         </div>
       </div>
-      <div class="hero-visual-card hero-visual-card--right">
-        <div class="content-card">
-          <div class="content-card-thumb" style="background:linear-gradient(160deg, #1a2b26 0%, #2e5548 55%, #5c8f7e 100%);"></div>
-          <div class="content-card-top">
-            <span class="content-card-badge">top 8%</span>
-            <button class="content-card-heart" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+
+      <!-- Hero visual: composed row of ContentCards -->
+      <div class="hero-visual reveal">
+        <div class="hero-visual-card hero-visual-card--main">
+          <div class="content-card">
+            <div class="content-card-thumb" style="background:linear-gradient(160deg, #2d2419 0%, #6b4a2b 55%, #b48a55 100%);"></div>
+            <div class="content-card-top">
+              <span class="content-card-badge" data-tone="gold">3.4× your median</span>
+              <button class="content-card-heart" data-active="true" aria-label="Saved"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            </div>
+            <div class="content-card-take"><em>your fastest hook ever landed at 0:00.4.</em></div>
           </div>
-          <div class="content-card-take"><em>pattern-break at 0:11 is your unfair advantage.</em></div>
         </div>
-      </div>
-      <div class="hero-visual-card hero-visual-card--left">
-        <div class="content-card">
-          <div class="content-card-thumb" style="background:linear-gradient(160deg, #241a26 0%, #4e2f56 55%, #825982 100%);"></div>
-          <div class="content-card-top">
-            <span class="content-card-badge">retention 74%</span>
-            <button class="content-card-heart" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="hero-visual-card hero-visual-card--right">
+          <div class="content-card">
+            <div class="content-card-thumb" style="background:linear-gradient(160deg, #1a2b26 0%, #2e5548 55%, #5c8f7e 100%);"></div>
+            <div class="content-card-top">
+              <span class="content-card-badge">top 8%</span>
+              <button class="content-card-heart" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           </div>
-          <div class="content-card-take"><em>three-verb caption. your sweet spot.</em></div>
+            <div class="content-card-take"><em>pattern-break at 0:11 is your unfair advantage.</em></div>
+          </div>
+        </div>
+        <div class="hero-visual-card hero-visual-card--left">
+          <div class="content-card">
+            <div class="content-card-thumb" style="background:linear-gradient(160deg, #241a26 0%, #4e2f56 55%, #825982 100%);"></div>
+            <div class="content-card-top">
+              <span class="content-card-badge">retention 74%</span>
+              <button class="content-card-heart" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            </div>
+            <div class="content-card-take"><em>three-verb caption. your sweet spot.</em></div>
+          </div>
         </div>
       </div>
     </div>
@@ -240,19 +240,22 @@
   </div>
 </section>
 
-<!-- WAITLIST -->
-<section id="waitlist" class="section waitlist-section">
-  <div class="wrap-narrow waitlist card reveal">
-    <div class="eyebrow">JOIN THE WAITLIST</div>
-    <h2 class="h2">Be the first thread <em>we open</em>.</h2>
-    <p class="lede">Early access is going out in small batches. Drop your email and we'll send your Telegram invite when your slot opens.</p>
-    <form class="pill-input" onsubmit="event.preventDefault(); joinWaitlist(this);">
-      <input type="email" required placeholder="you@studio.com" aria-label="Email" />
-      <button class="pill-input-send" type="submit" aria-label="Join waitlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+<!-- FINAL CTA -->
+<section id="signup" class="section signup-section">
+  <div class="wrap-narrow signup-card card reveal">
+    <div class="eyebrow">GET STARTED</div>
+    <h2 class="h2">Ready when <em>you are</em>.</h2>
+    <p class="lede">Sign in and Precense will meet you in Telegram. First teardown lands within 60 seconds of your first forward.</p>
+    <div class="signin-btn-row">
+      <button class="signin-btn signin-btn-google" onclick="signInWithProvider('google')">
+        <svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.3l7.8 6.1C12.2 13.1 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.9 7.2l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.6z"/><path fill="#FBBC05" d="M10.4 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.2 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.4 0-11.8-3.6-13.6-8.6l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+        <span>Continue with Google</span>
       </button>
-    </form>
-    <div class="wl-msg"></div>
+      <button class="signin-btn signin-btn-apple" onclick="signInWithProvider('apple')">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        <span>Continue with Apple</span>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -260,8 +263,6 @@
   <div class="wrap footer-inner">
     <div class="brand"><span class="brand-mark">P</span> Precense</div>
     <div class="foot-links">
-      <a href="/app/">Open app</a>
-      <span>·</span>
       <a href="https://github.com/Expandingmind/precense" target="_blank" rel="noopener">GitHub</a>
       <span>·</span>
       <span>© 2026</span>
@@ -269,6 +270,7 @@
   </div>
 </footer>
 
+<script src="/js/auth.js"></script>
 <script src="/script.js"></script>
 </body>
 </html>

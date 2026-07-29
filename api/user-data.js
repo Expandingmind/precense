@@ -2,26 +2,39 @@ import { supabase } from '../lib/supabase.js';
 
 export const config = { runtime: 'nodejs' };
 
-// GET /api/user-data?u=<handle>
-// Returns user profile + signature + recent submissions.
-// MVP: read-only, no auth. Later we swap for magic-link tokens.
+// GET /api/user-data
+// Authenticated: pass Authorization: Bearer <supabase_access_token>
+// Falls back to demo data if no auth (for the landing preview).
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
-  const handle = String(req.query.u || '').trim().toLowerCase().replace(/^@/, '');
 
-  if (!handle) {
+  const auth = req.headers.authorization || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+
+  if (!token) {
     return res.status(200).json({ demo: true, ...demoPayload() });
+  }
+
+  const authUser = await verifyToken(token);
+  if (!authUser) {
+    return res.status(401).json({ error: 'invalid token' });
   }
 
   try {
     const { data: user, error: userErr } = await supabase
       .from('users')
-      .select('id, handle, first_name, niche, telegram_chat_id, created_at')
-      .ilike('handle', handle)
+      .select('id, handle, first_name, niche, telegram_chat_id, email, auth_user_id, created_at')
+      .eq('auth_user_id', authUser.id)
       .maybeSingle();
 
     if (userErr) throw userErr;
-    if (!user) return res.status(200).json({ demo: true, notFound: handle, ...demoPayload(handle) });
+    if (!user) {
+      // Auth exists but no row yet — needs the link/onboarding flow
+      return res.status(200).json({
+        needs_link: true,
+        auth_user: { id: authUser.id, email: authUser.email },
+      });
+    }
 
     const [{ data: subs }, { data: sig }] = await Promise.all([
       supabase
@@ -50,13 +63,24 @@ export default async function handler(req, res) {
   }
 }
 
+async function verifyToken(token) {
+  try {
+    const r = await fetch(`${process.env.SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        apikey: process.env.SUPABASE_ANON_KEY,
+      },
+    });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch {
+    return null;
+  }
+}
+
 function demoPayload(handle = 'demo') {
   return {
-    user: {
-      handle,
-      first_name: 'Jah',
-      niche: 'app-ugc',
-    },
+    user: { handle, first_name: 'Jah', niche: 'app-ugc' },
     signature: {
       dominant_hook_types: ['pattern-interrupt', 'dupe', 'POV'],
       dominant_formats: ['talking-head', 'screen-record'],
@@ -69,34 +93,22 @@ function demoPayload(handle = 'demo') {
       video_count: 12,
     },
     submissions: [
-      {
-        id: 'demo-1',
-        submitted_at: new Date(Date.now() - 3 * 24 * 3600e3).toISOString(),
+      { id: 'demo-1', submitted_at: new Date(Date.now() - 3 * 86400e3).toISOString(),
         extracted_features: { hook_type: 'pattern-interrupt', format: 'talking-head', subject: 'AI photo editor unboxing', pacing: 'hard cuts every 1.5s' },
         precense_reply: 'top 8% of your last 30. hook lands at 0:00.4 — your fastest ever. the 0:11 reveal matches your pattern-break signature.',
-        metrics: { badge: '3.4× median', tone: 'gold' },
-      },
-      {
-        id: 'demo-2',
-        submitted_at: new Date(Date.now() - 6 * 24 * 3600e3).toISOString(),
+        metrics: { badge: '3.4× median', tone: 'gold' } },
+      { id: 'demo-2', submitted_at: new Date(Date.now() - 6 * 86400e3).toISOString(),
         extracted_features: { hook_type: 'dupe', format: 'screen-record', subject: 'productivity app comparison', pacing: 'slow build, payoff at 0:14' },
         precense_reply: 'solid — comparison frame does the persuasion. show the app 3s earlier next time.',
-        metrics: { badge: 'top 12%' },
-      },
-      {
-        id: 'demo-3',
-        submitted_at: new Date(Date.now() - 9 * 24 * 3600e3).toISOString(),
+        metrics: { badge: 'top 12%' } },
+      { id: 'demo-3', submitted_at: new Date(Date.now() - 9 * 86400e3).toISOString(),
         extracted_features: { hook_type: 'POV', format: 'talking-head', subject: 'creator burnout POV', pacing: 'reveal at 0:07' },
         precense_reply: 'this one hits. your POV format is meaningfully stronger than your talking-head — do more.',
-        metrics: { badge: 'retention 74%' },
-      },
-      {
-        id: 'demo-4',
-        submitted_at: new Date(Date.now() - 13 * 24 * 3600e3).toISOString(),
+        metrics: { badge: 'retention 74%' } },
+      { id: 'demo-4', submitted_at: new Date(Date.now() - 13 * 86400e3).toISOString(),
         extracted_features: { hook_type: 'listicle', format: 'b-roll-vo', subject: '5 tools I use daily', pacing: 'quick cuts, no dead air' },
         precense_reply: "middle of the pack. the listicle format is playing it safe — your best posts take a stronger stance.",
-        metrics: { badge: 'watch again' },
-      },
+        metrics: { badge: 'watch again' } },
     ],
   };
 }
