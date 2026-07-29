@@ -1,4 +1,4 @@
-// Landing page — reveal on scroll + auth glue.
+// Landing page — reveal on scroll + auth glue + shrinking nav.
 
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
@@ -10,6 +10,24 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+// Compact-on-scroll nav
+(function () {
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+  const THRESHOLD = 32;
+  let raf = null;
+  function apply() {
+    raf = null;
+    const y = window.scrollY || window.pageYOffset || 0;
+    nav.classList.toggle('is-scrolled', y > THRESHOLD);
+  }
+  window.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = requestAnimationFrame(apply);
+  }, { passive: true });
+  apply();
+})();
 
 // If already authed, replace "Sign in" with "Open app" and shortcut the CTA
 (async function () {
