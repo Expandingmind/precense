@@ -48,7 +48,7 @@
 /* Once collapsed to a floating pill, add interior padding so content doesn't touch the pill edges */
 .nav.is-scrolled .nav-inner { padding: 0 1.75rem; height: 72px; }
 /* Spacer so page content doesn't jump under the fixed nav */
-body::after { content: ''; display: block; height: 84px; }
+body::after { content: ''; display: block; height: 112px; }
 
 /* Scrolled state: bouncy morph to floating centered pill */
 .nav.is-scrolled { padding: .5rem 1rem; }
@@ -92,11 +92,12 @@ body::after { content: ''; display: block; height: 84px; }
 
 /* ---------- HERO ---------- */
 .hero {
-  padding: 5.5rem 0 5rem;
+  padding: 8rem 0 5rem;
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--border-hairline);
 }
+@media (max-width: 760px) { .hero { padding-top: 4.5rem; } }
 .hero::before {
   content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
