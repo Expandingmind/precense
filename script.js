@@ -29,16 +29,16 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   apply();
 })();
 
-// If already authed, replace "Sign in" with "Open app" and shortcut the CTA
+// If already authed, replace login/trial CTAs with "Open app"
 (async function () {
   if (!window.precenseAuth) return;
   try {
     const session = await window.precenseAuth.getSession();
     if (session) {
-      document.querySelectorAll('#nav-signin').forEach((el) => {
-        el.textContent = 'Open app';
-        el.onclick = () => (window.location.href = '/app/');
-      });
+      const login = document.getElementById('nav-login');
+      const trial = document.getElementById('nav-trial');
+      if (login) { login.textContent = 'Open app'; login.onclick = () => (window.location.href = '/app/'); }
+      if (trial) trial.remove();
     }
   } catch (e) { console.warn('auth check', e.message); }
 })();

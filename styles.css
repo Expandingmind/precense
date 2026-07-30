@@ -40,12 +40,12 @@
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
-  height: 64px;
+  height: 82px;
   gap: 1.5rem;
   padding: 0 2.5rem;
   transition: height var(--dur-morph) var(--ease-spring), padding var(--dur-morph) var(--ease-spring);
 }
-.nav.is-scrolled .nav-inner { padding: 0 1.75rem; }
+.nav.is-scrolled .nav-inner { padding: 0 1.75rem; height: 66px; }
 /* Spacer so page content doesn't jump under the fixed nav */
 body::after { content: ''; display: block; height: 84px; }
 
@@ -60,18 +60,29 @@ body::after { content: ''; display: block; height: 84px; }
   backdrop-filter: saturate(160%) blur(22px);
   -webkit-backdrop-filter: saturate(160%) blur(22px);
 }
-.nav.is-scrolled .nav-inner { height: 54px; }
 @media (prefers-reduced-motion: reduce) {
   .nav, .nav .wrap, .nav-inner { transition: none !important; }
 }
-.brand { display: flex; align-items: center; gap: .65rem; font-weight: 700; font-size: 1rem; letter-spacing: -.015em; color: var(--ink); }
+.brand { display: flex; align-items: center; gap: .75rem; font-weight: 700; letter-spacing: -.018em; color: var(--ink); }
+.brand-word {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.85rem;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
 .brand-mark {
-  width: 32px; height: 32px;
+  width: 44px; height: 44px;
   color: var(--ink);
   display: inline-grid; place-items: center;
   flex-shrink: 0;
 }
 .brand-mark svg { width: 100%; height: 100%; display: block; }
+/* Scrolled state: brand shrinks proportionally with the nav pill */
+.nav.is-scrolled .brand-mark { width: 36px; height: 36px; }
+.nav.is-scrolled .brand-word { font-size: 1.4rem; }
 .nav-links { display: flex; gap: 2rem; font-size: .92rem; font-weight: 500; }
 .nav-links a { color: var(--ink-mute); transition: color .18s var(--ease); }
 .nav-links a:hover { color: var(--ink); }
