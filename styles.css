@@ -123,7 +123,20 @@ body::after { content: ''; display: block; height: 112px; }
 .hero-headline { line-height: 1; margin-bottom: 1.25rem; }
 .hero-lede { max-width: 42rem; color: var(--ink-3); }
 
-/* Sign-in card */
+/* Hero CTA row (replaces the sign-in card) */
+.hero-cta-row {
+  display: flex; gap: .75rem; flex-wrap: wrap;
+  margin-top: 1.75rem;
+}
+.hero-cta-sub {
+  margin-top: .85rem;
+  font-family: var(--font-sans);
+  font-size: .82rem;
+  color: var(--ink-mute);
+  letter-spacing: .01em;
+}
+
+/* Sign-in card (used on final signup section, if kept) */
 .signin-card {
   padding: 1.5rem;
   margin-top: 1.25rem;
