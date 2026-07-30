@@ -205,7 +205,85 @@ body::after { content: ''; display: block; height: 112px; }
 .hero-visual {
   position: relative;
   height: 500px;
-  perspective: 1200px;
+  perspective: 1600px;
+  perspective-origin: center;
+}
+
+/* ---- Floating platform tiles (fake 3D via layered shadows + rotate + float) ---- */
+.float-icon {
+  position: absolute;
+  width: 74px; height: 74px;
+  border-radius: 20px;
+  display: grid; place-items: center;
+  color: #fff;
+  transform-style: preserve-3d;
+  will-change: transform;
+  filter:
+    drop-shadow(0 20px 30px rgba(0,0,0,.4))
+    drop-shadow(0 6px 10px rgba(0,0,0,.35));
+  z-index: 4;
+}
+.float-icon svg { width: 40px; height: 40px; display: block; }
+/* Inner highlight for pseudo-3D "glass" edge */
+.float-icon::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 45%, rgba(0,0,0,.18) 100%);
+  pointer-events: none;
+}
+
+.float-icon--tiktok {
+  background: #0a0a0a;
+  top: 4%; left: -6%;
+  transform: rotate(-14deg);
+  animation: floatA 7s ease-in-out infinite;
+}
+.float-icon--instagram {
+  background: linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  bottom: 6%; left: -2%;
+  transform: rotate(10deg);
+  animation: floatB 8s ease-in-out infinite;
+}
+.float-icon--youtube {
+  background: #ff0000;
+  top: 6%; right: -4%;
+  transform: rotate(12deg);
+  animation: floatB 8.5s ease-in-out infinite reverse;
+}
+.float-icon--facebook {
+  background: #1877f2;
+  bottom: 8%; right: -6%;
+  transform: rotate(-8deg);
+  animation: floatA 7.5s ease-in-out infinite reverse;
+}
+
+@keyframes floatA {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 2deg)); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-14px) rotate(calc(var(--rot, 0deg) - 2deg)); }
+}
+/* Assign rot per icon so animation keeps their initial tilt */
+.float-icon--tiktok    { --rot: -14deg; }
+.float-icon--instagram { --rot:  10deg; }
+.float-icon--youtube   { --rot:  12deg; }
+.float-icon--facebook  { --rot:  -8deg; }
+
+@media (max-width: 980px) {
+  .float-icon { width: 60px; height: 60px; border-radius: 16px; }
+  .float-icon svg { width: 30px; height: 30px; }
+}
+@media (max-width: 600px) {
+  .float-icon { width: 50px; height: 50px; border-radius: 14px; }
+  .float-icon svg { width: 24px; height: 24px; }
+  .float-icon--tiktok, .float-icon--instagram { left: -8%; }
+  .float-icon--youtube, .float-icon--facebook { right: -8%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .float-icon { animation: none !important; }
 }
 .hero-visual-card {
   position: absolute;
