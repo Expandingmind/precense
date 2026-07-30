@@ -85,7 +85,7 @@ body::after { content: ''; display: block; height: 112px; }
 .nav.is-scrolled .brand-mark { width: 42px; height: 42px; }
 .nav.is-scrolled .brand-word { font-size: 1.6rem; }
 .nav-links { display: flex; gap: 2rem; font-size: .92rem; font-weight: 500; }
-.nav-links a { color: var(--ink-mute); transition: color .18s var(--ease); }
+.nav-links a { color: var(--ink-mute); transition: color .18s var(--ease); white-space: nowrap; }
 .nav-links a:hover { color: var(--ink); }
 .nav-cta { display: flex; align-items: center; gap: .55rem; }
 @media (max-width: 900px) { .nav-links { display: none; } }
