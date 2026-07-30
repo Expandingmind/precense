@@ -347,7 +347,7 @@ body::after { content: ''; display: block; height: 84px; }
   flex-shrink: 0;
   box-shadow: var(--shadow-sm);
 }
-.ch-icon svg { width: 22px; height: 22px; display: block; }
+.ch-icon svg { width: 28px; height: 28px; display: block; }
 .ch-name { font-weight: 600; font-size: 1rem; letter-spacing: -.01em; display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; color: var(--ink); }
 .ch-desc { font-size: .9rem; color: var(--ink-mute); margin-top: .2rem; }
 
