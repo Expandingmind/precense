@@ -118,7 +118,7 @@ body::after { content: ''; display: block; height: 84px; }
 }
 @media (max-width: 980px) { .hero-inner { align-items: center; } }
 .hero-eyebrow { display: inline-block; }
-.hero-headline { line-height: 1; }
+.hero-headline { line-height: 1; margin-bottom: 1.25rem; }
 .hero-lede { max-width: 42rem; color: var(--ink-3); }
 
 /* Sign-in card */
