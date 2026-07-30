@@ -42,9 +42,10 @@
   display: flex; align-items: center; justify-content: space-between;
   height: 96px;
   gap: 1.5rem;
-  padding: 0 2.5rem;
+  padding: 0;
   transition: height var(--dur-morph) var(--ease-spring), padding var(--dur-morph) var(--ease-spring);
 }
+/* Once collapsed to a floating pill, add interior padding so content doesn't touch the pill edges */
 .nav.is-scrolled .nav-inner { padding: 0 1.75rem; height: 72px; }
 /* Spacer so page content doesn't jump under the fixed nav */
 body::after { content: ''; display: block; height: 84px; }
