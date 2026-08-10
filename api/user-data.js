@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   try {
     const { data: user, error: userErr } = await supabase
       .from('users')
-      .select('id, handle, first_name, niche, telegram_chat_id, email, auth_user_id, created_at')
+      .select('id, handle, first_name, niche, telegram_chat_id, email, auth_user_id, created_at, role, onboarded_at, active_brand_org_id')
       .eq('auth_user_id', authUser.id)
       .maybeSingle();
 

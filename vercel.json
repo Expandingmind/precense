@@ -1,5 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/join/:token", "destination": "/join/index.html" }
+  ],
   "functions": {
     "api/telegram/webhook.js": {
       "maxDuration": 60,

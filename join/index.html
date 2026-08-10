@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Join Precense</title>
+<meta name="theme-color" content="#0f2e22" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/tokens.css" />
+<link rel="stylesheet" href="/styles/components.css" />
+<style>
+  body { min-height: 100vh; display: grid; place-items: center; padding: 2rem 1rem; }
+  .invite-card {
+    max-width: 460px; width: 100%;
+    padding: 2rem 1.5rem; border-radius: 20px;
+    background: var(--surface, #fff);
+    border: 1px solid var(--line, rgba(0,0,0,.08));
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,.25);
+  }
+  .invite-eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; opacity: .6; margin-bottom: .5rem; }
+  .invite-title { font-size: 1.75rem; font-weight: 700; margin: 0 0 .5rem; line-height: 1.15; }
+  .invite-title em { font-style: italic; font-family: 'Instrument Serif', serif; font-weight: 400; }
+  .invite-terms {
+    margin: 1.25rem 0; padding: 1rem 1.1rem;
+    background: rgba(0,0,0,.03); border-radius: 12px;
+    display: flex; flex-direction: column; gap: .5rem; font-size: .9rem;
+  }
+  .invite-terms strong { font-weight: 700; }
+  .signin-btn { display: flex; align-items: center; justify-content: center; gap: .55rem; padding: .8rem 1rem; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--line); background: var(--surface); }
+  .signin-btn + .signin-btn { margin-top: .55rem; }
+  .signin-btn svg { width: 18px; height: 18px; }
+  .err { color: var(--danger, #b02a37); font-size: .9rem; margin-top: .5rem; }
+  .center { text-align: center; }
+  .loading { opacity: .6; }
+</style>
+</head>
+<body>
+<div class="invite-card" id="card">
+  <div class="invite-eyebrow">You've been invited</div>
+  <h1 class="invite-title">Join <em>Precense</em>.</h1>
+  <div id="body" class="loading">Verifying invite…</div>
+</div>
+
+<script src="/js/auth.js"></script>
+<script>
+(async function () {
+  const bodyEl = document.getElementById('body');
+  const token = window.location.pathname.replace(/^\/join\//, '').replace(/\/$/, '');
+
+  if (!token) {
+    bodyEl.className = '';
+    bodyEl.innerHTML = `<p>Missing invite token. Ask whoever sent you here for a fresh link.</p>`;
+    return;
+  }
+
+  // Save token so post-oauth callback (which lands on /app/) can redeem it.
+  try { sessionStorage.setItem('precense_invite_token', token); } catch {}
+
+  // If already signed in, redeem immediately.
+  const session = await window.precenseAuth.getSession().catch(() => null);
+  if (session) {
+    try {
+      bodyEl.textContent = 'Redeeming invite…';
+      await window.precenseAuth.redeemInvite(token);
+      try { sessionStorage.removeItem('precense_invite_token'); } catch {}
+      window.location.href = '/app/';
+      return;
+    } catch (e) {
+      bodyEl.className = '';
+      bodyEl.innerHTML = `<p class="err">${e.message || 'Could not redeem invite.'}</p>`;
+      return;
+    }
+  }
+
+  // Fetch invite preview (public — no auth needed).
+  let invite = null;
+  try {
+    const r = await fetch(`/api/invite-preview?token=${encodeURIComponent(token)}`);
+    if (r.ok) invite = await r.json();
+  } catch {}
+
+  bodyEl.className = '';
+  const roleLabel = invite?.role === 'team_lead' ? 'Team Lead'
+    : invite?.role === 'brand' ? 'Brand'
+    : 'Creator';
+  const inviterLine = invite?.inviter_name
+    ? `Invited by <strong>${escapeHtml(invite.inviter_name)}</strong>`
+    : 'Precense invite';
+  const teamLine = invite?.team_name
+    ? `<div>Team: <strong>${escapeHtml(invite.team_name)}</strong></div>` : '';
+  const yourTakeLine = invite?.role === 'creator' && invite?.creator_take_pct != null
+    ? `<div>You keep <strong>${invite.creator_take_pct}%</strong> of every brand deal you deliver through Precense.</div>`
+    : '';
+
+  bodyEl.innerHTML = `
+    <div class="invite-terms">
+      <div>${inviterLine}</div>
+      <div>Role: <strong>${roleLabel}</strong></div>
+      ${teamLine}
+      ${yourTakeLine}
+    </div>
+    <button class="signin-btn" onclick="doSignIn('google')">
+      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.6 5.4 2.7 13.2l7.9 6.1C12.4 13.1 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.9c-.6 3-2.3 5.5-4.9 7.2l7.6 5.9c4.4-4.1 6.9-10.1 6.9-17.6z"/><path fill="#FBBC05" d="M10.6 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.6-3.6-13.4-8.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <button class="signin-btn" onclick="doSignIn('apple')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.24-1.19 3.06-.83.88-2.13 1.56-3.19 1.47-.13-1.11.44-2.28 1.16-3.05.83-.9 2.23-1.55 3.22-1.48zM20 17.34c-.65 1.42-.96 2.06-1.79 3.31-1.15 1.75-2.78 3.93-4.79 3.95-1.79.02-2.25-1.16-4.68-1.15-2.42.01-2.93 1.17-4.71 1.15-2.02-.03-3.55-2-4.71-3.75C.02 17.15-.29 12.9 1.36 10.5c1.16-1.7 3-2.7 4.72-2.7 1.75 0 2.85 1 4.29 1 1.4 0 2.24-1 4.27-1 1.54 0 3.17.84 4.33 2.29-3.8 2.08-3.18 7.5 1.03 7.25z"/></svg>
+      Continue with Apple
+    </button>
+    <p class="center" style="margin-top: 1rem; font-size: .8rem; opacity: .55;">Signing in accepts these invite terms.</p>
+  `;
+})();
+
+async function doSignIn(provider) {
+  try { await window.precenseAuth.signInWith(provider); }
+  catch (e) { document.getElementById('body').insertAdjacentHTML('beforeend', `<p class="err">${e.message}</p>`); }
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+</script>
+</body>
+</html>

@@ -83,6 +83,80 @@
     return data;
   }
 
+  async function redeemInvite(token) {
+    const c = await getClient();
+    const { data, error } = await c.rpc('redeem_invite', { p_token: token });
+    if (error) throw error;
+    return data;
+  }
+
+  async function generateInvite({ role, teamId, brandOrgId, teamTakePct, emailHint, expiresDays }) {
+    const c = await getClient();
+    const { data, error } = await c.rpc('generate_invite', {
+      p_role: role,
+      p_team_id: teamId ?? null,
+      p_brand_org_id: brandOrgId ?? null,
+      p_team_take_pct: teamTakePct ?? null,
+      p_email_hint: emailHint ?? null,
+      p_expires_days: expiresDays ?? 30,
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  async function updateTeamMemberSplit(teamId, creatorProfileId, newPct) {
+    const c = await getClient();
+    const { data, error } = await c.rpc('update_team_member_split', {
+      p_team_id: teamId,
+      p_creator_profile_id: creatorProfileId,
+      p_new_pct: newPct,
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  async function createTeam(name, ownerEmail, defaultPct) {
+    const c = await getClient();
+    const { data, error } = await c.rpc('create_team', {
+      p_name: name,
+      p_owner_email: ownerEmail,
+      p_default_team_take_pct: defaultPct ?? 20,
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  async function fetchBrandData() {
+    const session = await getSession();
+    if (!session?.access_token) throw new Error('not authenticated');
+    const res = await fetch('/api/brand-data', {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+    if (!res.ok) throw new Error(`brand-data ${res.status}`);
+    return res.json();
+  }
+
+  async function createCampaign({ name, brief, target_hooks }) {
+    const c = await getClient();
+    const { data, error } = await c.rpc('create_campaign', {
+      p_name: name,
+      p_brief: brief || null,
+      p_target_hooks: target_hooks || null,
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  async function setUserRole(role, brandName) {
+    const c = await getClient();
+    const { data, error } = await c.rpc('set_user_role', {
+      p_role: role,
+      p_brand_name: brandName || null,
+    });
+    if (error) throw error;
+    return data;
+  }
+
   async function onAuthChange(cb) {
     const c = await getClient();
     c.auth.onAuthStateChange((event, session) => cb(event, session));
@@ -96,6 +170,13 @@
     fetchUserData,
     linkTelegramHandle,
     ensureAuthUserRow,
+    setUserRole,
+    fetchBrandData,
+    createCampaign,
+    redeemInvite,
+    generateInvite,
+    updateTeamMemberSplit,
+    createTeam,
     onAuthChange,
   };
 })();

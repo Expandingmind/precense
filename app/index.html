@@ -23,24 +23,7 @@
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 160 160" width="32" height="32"><g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"><path d="M 28 46 L 28 28 L 46 28"/><path d="M 132 46 L 132 28 L 114 28"/><path d="M 28 114 L 28 132 L 46 132"/><path d="M 132 114 L 132 132 L 114 132"/></g><text x="80" y="104" text-anchor="middle" font-family="'Instrument Serif','Times New Roman',serif" font-style="italic" font-size="82" fill="currentColor">P</text></svg></span>
       <span class="brand-word">Precense</span>
     </a>
-    <nav class="side-nav" id="side-nav">
-      <a href="#home" data-view="home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
-        <span>Home</span>
-      </a>
-      <a href="#saved" data-view="saved">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-        <span>Saved</span>
-      </a>
-      <a href="#profile" data-view="profile">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-        <span>Profile</span>
-      </a>
-      <a href="#settings" data-view="settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.82-.33 1.7 1.7 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.51 1.7 1.7 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.33 1.82V9a1.7 1.7 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>
-        <span>Settings</span>
-      </a>
-    </nav>
+    <nav class="side-nav" id="side-nav"><!-- populated by app.js based on role --></nav>
 
     <div class="side-foot">
       <a class="side-user" href="#profile" data-view="profile">
@@ -58,20 +41,7 @@
 </div>
 
 <!-- FLOATING NAV (mobile only, hidden on desktop via CSS) -->
-<nav class="floating-nav" id="mobile-nav">
-  <a href="#home" data-view="home" aria-label="Home">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
-    <span>Home</span>
-  </a>
-  <a href="#saved" data-view="saved" aria-label="Saved">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-    <span>Saved</span>
-  </a>
-  <a href="#profile" data-view="profile" aria-label="Profile">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-    <span>Profile</span>
-  </a>
-</nav>
+<nav class="floating-nav" id="mobile-nav"><!-- populated by app.js based on role --></nav>
 
 <!-- ---------- TEMPLATES ---------- -->
 
@@ -306,6 +276,241 @@
 <aside class="sheet" id="sheet" role="dialog" aria-hidden="true"></aside>
 
 <!-- Onboarding sheet template (post-auth Telegram link) -->
+<template id="tpl-team-home">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="hero-block reveal in">
+        <div class="eyebrow">TEAM · <span data-team-name>—</span></div>
+        <h1 class="h1-lg">Manage your <em>roster</em>.</h1>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat-card"><div class="stat-num" data-team-count>0</div><div class="stat-label">Creators on team</div></div>
+        <div class="stat-card"><div class="stat-num" data-team-invites-open>0</div><div class="stat-label">Open invites</div></div>
+        <div class="stat-card"><div class="stat-num">$0</div><div class="stat-label">Pending payouts</div></div>
+      </div>
+      <div class="section-head reveal">
+        <h2 class="h2">Roster</h2>
+        <button class="btn btn-primary" onclick="openGenerateInviteSheet()">+ Invite creator</button>
+      </div>
+      <div id="team-roster" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-team-roster">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in">
+        <h1 class="h1-lg">Roster</h1>
+        <button class="btn btn-primary" onclick="openGenerateInviteSheet()">+ Invite creator</button>
+      </div>
+      <div id="team-roster" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-invites">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in">
+        <h1 class="h1-lg">Invites</h1>
+        <button class="btn btn-primary" onclick="openGenerateInviteSheet()">+ Generate</button>
+      </div>
+      <div id="invites-list" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-admin-home">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="hero-block reveal in">
+        <div class="eyebrow">PLATFORM · ADMIN</div>
+        <h1 class="h1-lg">Precense <em>ops</em>.</h1>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat-card"><div class="stat-num" data-admin-teams-count>0</div><div class="stat-label">Teams</div></div>
+        <div class="stat-card"><div class="stat-num" data-admin-brands-count>0</div><div class="stat-label">Brand orgs</div></div>
+        <div class="stat-card"><div class="stat-num">$0</div><div class="stat-label">Platform revenue</div></div>
+      </div>
+      <div class="section-head reveal">
+        <h2 class="h2">Teams</h2>
+        <button class="btn btn-primary" onclick="openCreateTeamSheet()">+ New team</button>
+      </div>
+      <div id="admin-teams" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-admin">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in">
+        <h1 class="h1-lg">Admin</h1>
+        <div style="display:flex; gap:.5rem;">
+          <button class="btn" onclick="openCreateTeamSheet()">+ Team</button>
+          <button class="btn btn-primary" onclick="openGenerateInviteSheet()">+ Invite</button>
+        </div>
+      </div>
+      <h2 class="h2 reveal">Recent invites</h2>
+      <div id="admin-recent-invites" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-generate-invite">
+  <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></div>
+  <h2 class="sheet-title">Generate <em>invite</em>.</h2>
+  <form onsubmit="event.preventDefault(); submitGenerateInvite(this);" style="display:flex; flex-direction:column; gap:.75rem;">
+    <label style="display:flex; flex-direction:column; gap:.3rem;">
+      <span style="font-size:.85rem; opacity:.7;">Role</span>
+      <select name="role" class="pill-input" style="padding:.6rem .8rem;">
+        <option value="creator">Creator</option>
+        <option value="team_lead">Team lead (admin only)</option>
+        <option value="brand">Brand (admin only)</option>
+      </select>
+    </label>
+    <input type="hidden" name="team_id" data-invite-team-id value="" />
+    <label style="display:flex; flex-direction:column; gap:.3rem;">
+      <span style="font-size:.85rem; opacity:.7;">Team take % (0–50, blank = team default)</span>
+      <input class="pill-input" style="padding:.6rem .8rem;" type="number" name="team_take_pct" min="0" max="50" step="0.5" placeholder="e.g. 20" data-invite-default-pct />
+    </label>
+    <label style="display:flex; flex-direction:column; gap:.3rem;">
+      <span style="font-size:.85rem; opacity:.7;">Email hint (optional)</span>
+      <input class="pill-input" style="padding:.6rem .8rem;" type="email" name="email_hint" placeholder="creator@example.com" />
+    </label>
+    <button class="btn btn-primary btn-lg" type="submit">Create invite link</button>
+    <div class="signin-error" id="invite-err" hidden></div>
+  </form>
+  <span class="sheet-not-now" onclick="closeSheet()">Cancel</span>
+</template>
+
+<template id="tpl-create-team">
+  <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+  <h2 class="sheet-title">New <em>team</em>.</h2>
+  <p class="sheet-body">Promotes the owner to team_lead if they aren't already.</p>
+  <form onsubmit="event.preventDefault(); submitCreateTeam(this);" style="display:flex; flex-direction:column; gap:.75rem;">
+    <input class="pill-input" style="padding:.6rem .8rem;" type="text" name="name" placeholder="Team name" required />
+    <input class="pill-input" style="padding:.6rem .8rem;" type="email" name="owner_email" placeholder="Owner email (must be an existing user)" required />
+    <input class="pill-input" style="padding:.6rem .8rem;" type="number" name="default_team_take_pct" min="0" max="50" step="0.5" value="20" placeholder="Default team take %" />
+    <button class="btn btn-primary btn-lg" type="submit">Create team</button>
+    <div class="signin-error" id="team-err" hidden></div>
+  </form>
+  <span class="sheet-not-now" onclick="closeSheet()">Cancel</span>
+</template>
+
+<template id="tpl-brand-home">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="hero-block reveal in">
+        <div class="eyebrow">BRAND · <span data-brand-name>—</span></div>
+        <h1 class="h1-lg">Welcome back, <span data-greeting-name>friend</span>.</h1>
+      </div>
+
+      <div class="stat-row reveal">
+        <div class="stat-card"><div class="stat-num" data-brand-active-campaigns>0</div><div class="stat-label">Active campaigns</div></div>
+        <div class="stat-card"><div class="stat-num" data-brand-roster-size>0</div><div class="stat-label">Creators on roster</div></div>
+        <div class="stat-card"><div class="stat-num" data-brand-pending>0</div><div class="stat-label">Pending deliverables</div></div>
+      </div>
+
+      <div class="section-head reveal">
+        <h2 class="h2">Campaigns</h2>
+        <button class="btn btn-primary" onclick="openNewCampaignSheet()">+ New campaign</button>
+      </div>
+      <div id="brand-campaigns-preview" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-campaigns">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in">
+        <h1 class="h1-lg">Campaigns</h1>
+        <button class="btn btn-primary" onclick="openNewCampaignSheet()">+ New campaign</button>
+      </div>
+      <div id="campaigns-list" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-roster">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in">
+        <h1 class="h1-lg">Creators</h1>
+      </div>
+      <p class="muted reveal">Discovery and roster management ship next. Coming soon: filter by dominant hook, format, and niche; invite from search results.</p>
+      <div id="roster-list" class="card-list reveal"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-analytics">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in">
+        <h1 class="h1-lg">Analytics</h1>
+      </div>
+      <p class="muted reveal">Cross-campaign performance charts land once `post_stats` starts filling. This page will show which hook and format is winning per campaign.</p>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-new-campaign">
+  <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></div>
+  <h2 class="sheet-title">New <em>campaign</em>.</h2>
+  <p class="sheet-body">Give it a name and a one-line brief. You can refine hooks, budget, and dates later.</p>
+  <form onsubmit="event.preventDefault(); submitNewCampaign(this);" style="display:flex; flex-direction:column; gap:.75rem;">
+    <label class="pill-input" style="width:100%">
+      <input name="name" type="text" placeholder="Campaign name" required autocomplete="off" />
+    </label>
+    <label class="pill-input" style="width:100%">
+      <input name="brief" type="text" placeholder="One-line brief (optional)" autocomplete="off" />
+    </label>
+    <label class="pill-input" style="width:100%">
+      <input name="target_hooks" type="text" placeholder="Target hooks, comma-separated (optional)" autocomplete="off" />
+    </label>
+    <button class="btn btn-primary btn-lg" type="submit">Create campaign</button>
+    <div class="signin-error" id="campaign-err" hidden></div>
+  </form>
+  <span class="sheet-not-now" onclick="closeSheet()">Cancel</span>
+</template>
+
+<template id="tpl-onboard-role">
+  <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+  <h2 class="sheet-title">Who's using <em>Precense</em>?</h2>
+  <p class="sheet-body">Pick the workspace you want. You can add the other one later.</p>
+
+  <div class="role-picker" style="display:flex; flex-direction:column; gap:.75rem; margin-top:.5rem;">
+    <button type="button" class="role-card" data-role="creator" onclick="selectRole('creator')">
+      <div class="role-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+      <div class="role-card-body">
+        <div class="role-card-title">I'm a creator</div>
+        <div class="role-card-sub">Track your posts, learn your signature, get told what to make next.</div>
+      </div>
+    </button>
+    <button type="button" class="role-card" data-role="brand" onclick="selectRole('brand')">
+      <div class="role-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="role-card-body">
+        <div class="role-card-title">I run a brand</div>
+        <div class="role-card-sub">Manage UGC creators, brief campaigns, review deliverables, track performance.</div>
+      </div>
+    </button>
+  </div>
+
+  <form id="brand-name-form" hidden onsubmit="event.preventDefault(); submitRole('brand', this);" style="display:flex; flex-direction:column; gap:.75rem; margin-top:1rem;">
+    <label class="pill-input" style="width:100%">
+      <input name="brand_name" type="text" placeholder="Brand name" autocapitalize="words" autocomplete="organization" required />
+      <button class="pill-input-send" type="submit" aria-label="Create workspace">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+    </label>
+  </form>
+
+  <div class="signin-error" id="role-err" hidden></div>
+</template>
+
 <template id="tpl-link-sheet">
   <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></div>
   <h2 class="sheet-title">Link your <em>Telegram</em>.</h2>
