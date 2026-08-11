@@ -1,43 +1,32 @@
 // Precense app SPA — hash-routed. Requires an authenticated session.
 
-const CREATOR_VIEWS = ['home', 'saved', 'profile', 'settings'];
-const BRAND_VIEWS = ['home', 'campaigns', 'roster', 'analytics', 'profile', 'settings'];
-const TEAM_LEAD_VIEWS = ['home', 'roster', 'invites', 'profile', 'settings'];
-const ADMIN_VIEWS = ['home', 'admin', 'profile', 'settings'];
+// MVP-1 comms hub: strip nav back to Chats / Friends / Profile / Settings (+ Admin).
+// Old marketplace views (campaigns/roster/invites/analytics) remain in HTML/JS but are unreachable.
+const BASE_VIEWS = ['chats', 'friends', 'profile', 'settings'];
+const ADMIN_VIEWS = ['chats', 'friends', 'admin', 'profile', 'settings'];
 
 const ICONS = {
-  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>`,
-  saved: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
+  chats: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+  friends: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7"/><circle cx="17" cy="7" r="3"/><path d="M22 20c0-3-2-5-5-5"/></svg>`,
   profile: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>`,
   settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>`,
-  campaigns: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 12h10v8H4z"/><path d="M18 12h2v8h-2z"/></svg>`,
-  roster: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7"/><circle cx="17" cy="7" r="3"/><path d="M22 20c0-3-2-5-5-5"/></svg>`,
-  analytics: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>`,
+  admin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4v6c0 5-3.5 9-9 10-5.5-1-9-5-9-10V6l9-4z"/></svg>`,
 };
 
 const LABELS = {
-  home: 'Home', saved: 'Saved', profile: 'Profile', settings: 'Settings',
-  campaigns: 'Campaigns', roster: 'Creators', analytics: 'Analytics',
-  invites: 'Invites', admin: 'Admin',
+  chats: 'Chats', friends: 'Friends', profile: 'Profile', settings: 'Settings', admin: 'Admin',
 };
 
 function activeRole() {
-  const r = state.data?.user?.role;
-  return ['brand', 'team_lead', 'admin'].includes(r) ? r : 'creator';
+  return state.data?.user?.role === 'admin' ? 'admin' : 'regular';
 }
 function activeViews() {
-  const r = activeRole();
-  if (r === 'brand') return BRAND_VIEWS;
-  if (r === 'team_lead') return TEAM_LEAD_VIEWS;
-  if (r === 'admin') return ADMIN_VIEWS;
-  return CREATOR_VIEWS;
+  return activeRole() === 'admin' ? ADMIN_VIEWS : BASE_VIEWS;
 }
 function mobileViews() {
-  const r = activeRole();
-  if (r === 'brand') return ['home', 'campaigns', 'roster', 'profile'];
-  if (r === 'team_lead') return ['home', 'roster', 'invites', 'profile'];
-  if (r === 'admin') return ['home', 'admin', 'profile'];
-  return ['home', 'saved', 'profile'];
+  return activeRole() === 'admin'
+    ? ['chats', 'friends', 'admin', 'profile']
+    : ['chats', 'friends', 'profile'];
 }
 const view = document.getElementById('view');
 const sideNav = document.getElementById('side-nav');
@@ -73,13 +62,10 @@ async function boot() {
     try { sessionStorage.removeItem('precense_invite_token'); } catch {}
   }
 
+  // MVP-1: ensure a users row exists for this auth session (no role picker, no link sheet).
+  try { await window.precenseAuth.ensureCommsUser(); } catch (e) { console.warn('ensureCommsUser', e); }
+
   await loadData();
-  // Onboarding gate: role first, then channel link.
-  if (state.data?.needs_link) {
-    openLinkSheet();
-  } else if (state.data?.user && !state.data.user.onboarded_at) {
-    openRoleSheet();
-  }
   render();
 }
 
@@ -94,16 +80,11 @@ async function loadData() {
 
 // -------- routing --------
 function currentView() {
-  const raw = (window.location.hash || '#home').replace(/^#/, '').split('/')[0];
-  return activeViews().includes(raw) ? raw : 'home';
+  const raw = (window.location.hash || '#chats').replace(/^#/, '').split('/')[0];
+  return activeViews().includes(raw) ? raw : 'chats';
 }
 
 function tplIdFor(view) {
-  const r = activeRole();
-  if (view === 'home' && r === 'brand') return 'tpl-brand-home';
-  if (view === 'home' && r === 'team_lead') return 'tpl-team-home';
-  if (view === 'home' && r === 'admin') return 'tpl-admin-home';
-  if (view === 'roster' && r === 'team_lead') return 'tpl-team-roster';
   return `tpl-${view}`;
 }
 
@@ -167,30 +148,10 @@ function hydrateSide() {
 
 function hydrate(v) {
   const d = state.data;
-  if (!d || d.needs_link) {
-    // Render empty-state hydration
-    if (v === 'home') {
-      const nameEl = view.querySelector('[data-greeting-name]');
-      if (nameEl) nameEl.textContent = 'there';
-    }
-    return;
-  }
-  const r = activeRole();
-  if (r === 'brand') {
-    if (v === 'home') hydrateBrandHome(d);
-    if (v === 'campaigns') hydrateCampaigns(d);
-    return;
-  }
-  if (r === 'team_lead') {
-    if (v === 'home' || v === 'roster' || v === 'invites') hydrateTeamLead(d, v);
-    return;
-  }
-  if (r === 'admin') {
-    if (v === 'home' || v === 'admin') hydrateAdmin(d, v);
-    return;
-  }
-  if (v === 'home') hydrateHome(d);
-  if (v === 'profile') hydrateProfile(d);
+  if (v === 'chats') return hydrateChats();
+  if (v === 'friends') return hydrateFriends();
+  if (v === 'profile') return hydrateProfileEditor(d);
+  if (v === 'admin') return hydrateAdminPanel();
 }
 
 // -------- team lead + admin data --------
@@ -753,3 +714,542 @@ window.addEventListener('hashchange', render);
 window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 
 boot();
+
+// ====================================================================
+// MVP-1 COMMS HUB — chats, friends, profile editor, admin panel
+// ====================================================================
+
+let commsState = {
+  conversations: [],
+  activeConversationId: null,
+  messages: [],
+  members: [],
+  friends: [],
+  incoming: [],
+  outgoing: [],
+  search: [],
+  admin: { users: [], reports: [] },
+  channel: null,     // Realtime channel for the active conversation
+  presence: new Map(),
+};
+
+async function supa() {
+  return window.precenseAuth.getClient();
+}
+
+async function meUserId() {
+  return state.data?.user?.id || null;
+}
+
+// -------- chats --------
+async function loadConversations() {
+  const c = await supa();
+  const meId = await meUserId();
+  const { data, error } = await c
+    .from('conversations')
+    .select('id, kind, title, avatar_url, last_message_at, created_at, conversation_members!inner(user_id, last_read_at)')
+    .eq('conversation_members.user_id', meId)
+    .order('last_message_at', { ascending: false, nullsFirst: false });
+  if (error) { console.warn(error); return []; }
+  return data || [];
+}
+
+async function loadOtherMembers(convId) {
+  const c = await supa();
+  const { data, error } = await c
+    .from('conversation_members')
+    .select('user_id, role, last_read_at, users!inner(id, display_name, handle, avatar_url, last_seen_at, role)')
+    .eq('conversation_id', convId);
+  if (error) { console.warn(error); return []; }
+  return (data || []).map((m) => ({ ...m.users, member_role: m.role, last_read_at: m.last_read_at }));
+}
+
+async function loadMessages(convId, limit = 80) {
+  const c = await supa();
+  const { data, error } = await c
+    .from('messages')
+    .select('id, conversation_id, sender_user_id, body, kind, reply_to_id, created_at, edited_at, deleted_at, message_attachments(id, storage_path, mime_type, bytes)')
+    .eq('conversation_id', convId)
+    .is('deleted_at', null)
+    .order('created_at', { ascending: true })
+    .limit(limit);
+  if (error) { console.warn(error); return []; }
+  return data || [];
+}
+
+async function hydrateChats() {
+  commsState.conversations = await loadConversations();
+  const listEl = view.querySelector('#chat-list');
+  if (listEl) listEl.innerHTML = renderConvList(commsState.conversations);
+
+  const currentId = commsState.activeConversationId || commsState.conversations[0]?.id;
+  if (currentId) await openConversation(currentId);
+}
+
+function renderConvList(convs) {
+  if (!convs.length) return `<div class="empty-block"><p class="muted">No chats yet.</p><button class="btn btn-primary" onclick="openNewChatSheet()">Start one</button></div>`;
+  return convs.map((cv) => {
+    const title = cv.title || (cv.kind === 'dm' ? 'Direct message' : 'Group');
+    const meMember = cv.conversation_members?.find(m => m.user_id === state.data?.user?.id);
+    const unread = cv.last_message_at && (!meMember?.last_read_at || new Date(cv.last_message_at) > new Date(meMember.last_read_at));
+    const isActive = commsState.activeConversationId === cv.id;
+    return `
+      <button class="conv-item${isActive ? ' active' : ''}${unread ? ' unread' : ''}" onclick="openConversation(${cv.id})">
+        <span class="conv-avatar">${escapeHtml((title[0] || '#').toUpperCase())}</span>
+        <span class="conv-meta">
+          <span class="conv-title">${escapeHtml(title)}</span>
+          <span class="conv-sub">${cv.kind === 'announcement' ? 'Announcements' : cv.kind === 'group' ? 'Group' : 'DM'}</span>
+        </span>
+        ${unread ? '<span class="unread-dot"></span>' : ''}
+      </button>
+    `;
+  }).join('');
+}
+
+window.openConversation = async function (id) {
+  commsState.activeConversationId = id;
+  const conv = commsState.conversations.find((c) => c.id === id);
+  const [members, messages] = await Promise.all([loadOtherMembers(id), loadMessages(id)]);
+  commsState.members = members;
+  commsState.messages = messages;
+
+  // Update sidebar highlight
+  const listEl = view.querySelector('#chat-list');
+  if (listEl) listEl.innerHTML = renderConvList(commsState.conversations);
+
+  const paneEl = view.querySelector('#chat-pane');
+  if (paneEl) paneEl.innerHTML = renderChatPane(conv, members, messages);
+  scrollThreadToBottom();
+  subscribeToConversation(id);
+  markConversationRead(id);
+};
+
+function renderChatPane(conv, members, messages) {
+  const title = conv?.title || otherMemberName(members) || 'Chat';
+  const canPost = conv?.kind !== 'announcement' || ['admin','team_lead'].includes(state.data?.user?.role);
+  return `
+    <div class="chat-head">
+      <div class="chat-head-title">${escapeHtml(title)}</div>
+      <div class="chat-head-sub">${members.length} member${members.length === 1 ? '' : 's'}</div>
+    </div>
+    <div class="thread" id="thread">
+      ${messages.map((m) => renderMessage(m)).join('')}
+      <div id="typing-row" class="typing-row" hidden></div>
+    </div>
+    <form class="composer" onsubmit="event.preventDefault(); sendChatMessage(this);" ${canPost ? '' : 'hidden'}>
+      <label class="attach-btn" title="Attach">
+        <input type="file" accept="image/*,video/*" hidden onchange="attachToNextMessage(this)" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a5 5 0 0 1-7.07-7.07l9.19-9.19a3 3 0 0 1 4.24 4.24l-9.19 9.19a1 1 0 0 1-1.41-1.41l8.48-8.48"/></svg>
+      </label>
+      <input type="text" name="body" placeholder="Message…" autocomplete="off" oninput="onTyping()" required />
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    ${canPost ? '' : `<div class="composer-locked">Only admins and team leads can post to announcements.</div>`}
+  `;
+}
+
+function otherMemberName(members) {
+  const me = state.data?.user?.id;
+  const other = members.find((m) => m.id !== me);
+  return other?.display_name || other?.handle || null;
+}
+
+function renderMessage(m) {
+  const meId = state.data?.user?.id;
+  const mine = m.sender_user_id === meId;
+  const sender = commsState.members.find((x) => x.id === m.sender_user_id);
+  const name = sender?.display_name || sender?.handle || 'unknown';
+  const when = new Date(m.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const attachments = (m.message_attachments || []).map((a) => attachmentHtml(a)).join('');
+  return `
+    <div class="msg${mine ? ' mine' : ''}" data-id="${m.id}">
+      ${mine ? '' : `<div class="msg-sender">${escapeHtml(name)}</div>`}
+      ${m.body ? `<div class="msg-body">${escapeHtml(m.body)}</div>` : ''}
+      ${attachments}
+      <div class="msg-time">${when}</div>
+    </div>
+  `;
+}
+
+function attachmentHtml(a) {
+  const url = attachmentUrl(a.storage_path);
+  if ((a.mime_type || '').startsWith('image/')) {
+    return `<a class="msg-attach" href="${url}" target="_blank"><img src="${url}" alt="" loading="lazy"/></a>`;
+  }
+  if ((a.mime_type || '').startsWith('video/')) {
+    return `<video class="msg-attach" src="${url}" controls preload="metadata"></video>`;
+  }
+  return `<a class="msg-attach msg-attach-file" href="${url}" target="_blank">📎 Download attachment</a>`;
+}
+
+function attachmentUrl(path) {
+  const base = state.data?.supabase_url || window.__SUPABASE_URL || '';
+  return `${base}/storage/v1/object/public/attachments/${path}`;
+}
+
+async function subscribeToConversation(convId) {
+  if (commsState.channel) {
+    try { await commsState.channel.unsubscribe(); } catch {}
+    commsState.channel = null;
+  }
+  const c = await supa();
+  const meId = await meUserId();
+  const ch = c.channel(`conv:${convId}`)
+    .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages', filter: `conversation_id=eq.${convId}` },
+        async (payload) => {
+          const [enriched] = await loadMessages(convId, 1).then(() => loadMessages(convId));
+          commsState.messages = await loadMessages(convId);
+          const threadEl = view.querySelector('#thread');
+          if (threadEl) {
+            threadEl.innerHTML = commsState.messages.map((m) => renderMessage(m)).join('') + '<div id="typing-row" class="typing-row" hidden></div>';
+            scrollThreadToBottom();
+          }
+          markConversationRead(convId);
+        })
+    .on('broadcast', { event: 'typing' }, ({ payload }) => {
+      if (payload?.user_id === meId) return;
+      showTypingIndicator(payload?.display_name);
+    })
+    .on('presence', { event: 'sync' }, () => {
+      const s = ch.presenceState();
+      commsState.presence = new Map(Object.entries(s));
+    })
+    .subscribe(async (status) => {
+      if (status === 'SUBSCRIBED') {
+        await ch.track({ user_id: meId, at: Date.now() });
+      }
+    });
+  commsState.channel = ch;
+}
+
+let typingTimer = null;
+window.onTyping = async function () {
+  if (!commsState.channel) return;
+  const now = Date.now();
+  if (typingTimer && now - typingTimer < 2000) return;
+  typingTimer = now;
+  commsState.channel.send({ type: 'broadcast', event: 'typing', payload: { user_id: state.data?.user?.id, display_name: state.data?.user?.display_name || state.data?.user?.handle } });
+};
+
+let typingClearTimer = null;
+function showTypingIndicator(name) {
+  const el = view.querySelector('#typing-row');
+  if (!el) return;
+  el.hidden = false;
+  el.textContent = `${name || 'Someone'} is typing…`;
+  clearTimeout(typingClearTimer);
+  typingClearTimer = setTimeout(() => { el.hidden = true; }, 2500);
+}
+
+function scrollThreadToBottom() {
+  const el = view.querySelector('#thread');
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+async function markConversationRead(convId) {
+  try {
+    const c = await supa();
+    await c.rpc('mark_read', { p_conversation_id: convId });
+  } catch (e) { console.warn(e); }
+}
+
+window.sendChatMessage = async function (formEl) {
+  const input = formEl.querySelector('input[name="body"]');
+  const body = input.value.trim();
+  if (!body || !commsState.activeConversationId) return;
+  input.value = '';
+  try {
+    const c = await supa();
+    const { error } = await c.rpc('send_message', {
+      p_conversation_id: commsState.activeConversationId,
+      p_body: body,
+      p_kind: 'text',
+      p_reply_to: null,
+    });
+    if (error) throw error;
+  } catch (e) { alert(e.message); }
+};
+
+// Attachment upload — pending message state
+let pendingAttachment = null;
+window.attachToNextMessage = async function (fileInput) {
+  const file = fileInput.files?.[0];
+  if (!file) return;
+  if (file.size > 20 * 1024 * 1024) return alert('20MB max');
+  try {
+    const c = await supa();
+    const meId = await meUserId();
+    const path = `${meId}/${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
+    const { error: upErr } = await c.storage.from('attachments').upload(path, file, { contentType: file.type });
+    if (upErr) throw upErr;
+    // Send an empty-body message with attachment metadata (falls back: send " " so send_message accepts).
+    const { data: msgId, error: msgErr } = await c.rpc('send_message', {
+      p_conversation_id: commsState.activeConversationId,
+      p_body: '📎',
+      p_kind: 'text',
+      p_reply_to: null,
+    });
+    if (msgErr) throw msgErr;
+    await c.rpc('attach_to_message', { p_message_id: msgId, p_storage_path: path, p_mime: file.type, p_bytes: file.size });
+    fileInput.value = '';
+  } catch (e) { alert(e.message); }
+};
+
+// -------- friends --------
+async function loadFriends() {
+  const c = await supa();
+  const meId = await meUserId();
+  const [{ data: rows }, { data: incoming }, { data: outgoing }] = await Promise.all([
+    c.from('friendships').select('*, requester:users!friendships_requester_user_id_fkey(id, display_name, handle, avatar_url), addressee:users!friendships_addressee_user_id_fkey(id, display_name, handle, avatar_url)').eq('status', 'accepted').or(`requester_user_id.eq.${meId},addressee_user_id.eq.${meId}`),
+    c.from('friendships').select('*, requester:users!friendships_requester_user_id_fkey(id, display_name, handle, avatar_url)').eq('addressee_user_id', meId).eq('status', 'pending'),
+    c.from('friendships').select('*, addressee:users!friendships_addressee_user_id_fkey(id, display_name, handle, avatar_url)').eq('requester_user_id', meId).eq('status', 'pending'),
+  ]);
+  const friends = (rows || []).map((r) => (r.requester_user_id === meId ? r.addressee : r.requester));
+  return { friends, incoming: incoming || [], outgoing: outgoing || [] };
+}
+
+async function hydrateFriends() {
+  const d = await loadFriends();
+  commsState.friends = d.friends; commsState.incoming = d.incoming; commsState.outgoing = d.outgoing;
+  const el = view.querySelector('#friends-content');
+  if (el) el.innerHTML = renderFriendsPanel();
+}
+
+function renderFriendsPanel() {
+  return `
+    <div class="section-head reveal in">
+      <h1 class="h1-lg">Friends</h1>
+    </div>
+    <form class="pill-input" onsubmit="event.preventDefault(); doPeopleSearch(this);">
+      <input type="text" name="q" placeholder="Find people by name, handle, or email…" />
+      <button class="pill-input-send" type="submit">Search</button>
+    </form>
+    <div id="people-results" class="card-list reveal"></div>
+
+    ${commsState.incoming.length ? `
+      <h2 class="h2" style="margin-top:1.5rem;">Incoming requests</h2>
+      <div class="card-list">${commsState.incoming.map((r) => `
+        <article class="campaign-card">
+          <div class="campaign-card-head">
+            <h3>${escapeHtml(r.requester.display_name || r.requester.handle || 'user')}</h3>
+            <div style="display:flex; gap:.5rem;">
+              <button class="btn btn-primary" onclick="respondFriend(${r.requester.id}, true)">Accept</button>
+              <button class="btn" onclick="respondFriend(${r.requester.id}, false)">Decline</button>
+            </div>
+          </div>
+        </article>`).join('')}</div>
+    ` : ''}
+
+    <h2 class="h2" style="margin-top:1.5rem;">Your friends</h2>
+    <div class="card-list">
+      ${commsState.friends.length ? commsState.friends.map((f) => `
+        <article class="campaign-card">
+          <div class="campaign-card-head">
+            <h3>${escapeHtml(f.display_name || f.handle || 'friend')}</h3>
+            <div style="display:flex; gap:.5rem;">
+              <button class="btn btn-primary" onclick="dmUser(${f.id})">Message</button>
+              <button class="btn" onclick="blockUser(${f.id})">Block</button>
+            </div>
+          </div>
+        </article>`).join('') : '<p class="muted">No friends yet — search for someone above.</p>'}
+    </div>
+  `;
+}
+
+window.doPeopleSearch = async function (formEl) {
+  const q = formEl.querySelector('input[name="q"]').value.trim();
+  const c = await supa();
+  const { data, error } = await c.rpc('search_people', { p_query: q, p_limit: 20 });
+  const el = view.querySelector('#people-results');
+  if (error) { el.innerHTML = `<p class="muted">${error.message}</p>`; return; }
+  if (!data?.length) { el.innerHTML = `<p class="muted">No matches.</p>`; return; }
+  el.innerHTML = data.map((p) => `
+    <article class="campaign-card">
+      <div class="campaign-card-head">
+        <h3>${escapeHtml(p.display_name || p.handle || 'user')}</h3>
+        <div style="display:flex; gap:.5rem;">
+          <button class="btn btn-primary" onclick="requestFriend(${p.id}, this)">Add friend</button>
+          <button class="btn" onclick="dmUser(${p.id})">Message</button>
+        </div>
+      </div>
+    </article>`).join('');
+};
+
+window.requestFriend = async function (id, btn) {
+  try {
+    const c = await supa();
+    const { error } = await c.rpc('send_friend_request', { p_addressee_user_id: id });
+    if (error) throw error;
+    if (btn) { btn.textContent = 'Requested'; btn.disabled = true; }
+  } catch (e) { alert(e.message); }
+};
+
+window.respondFriend = async function (id, accept) {
+  try {
+    const c = await supa();
+    const { error } = await c.rpc('respond_friend_request', { p_requester_user_id: id, p_accept: accept });
+    if (error) throw error;
+    await hydrateFriends();
+  } catch (e) { alert(e.message); }
+};
+
+window.blockUser = async function (id) {
+  if (!confirm('Block this user?')) return;
+  try {
+    const c = await supa();
+    const { error } = await c.rpc('block_user', { p_user_id: id });
+    if (error) throw error;
+    await hydrateFriends();
+  } catch (e) { alert(e.message); }
+};
+
+window.dmUser = async function (id) {
+  try {
+    const c = await supa();
+    const { data, error } = await c.rpc('open_dm', { p_other_user_id: id });
+    if (error) throw error;
+    window.location.hash = '#chats';
+    await hydrateChats();
+    await openConversation(data);
+  } catch (e) { alert(e.message); }
+};
+
+// -------- profile editor --------
+function hydrateProfileEditor(d) {
+  const u = d?.user || {};
+  const container = view.querySelector('#profile-editor');
+  if (!container) return;
+  container.innerHTML = `
+    <form class="card" style="padding:1.25rem; display:flex; flex-direction:column; gap:.9rem;" onsubmit="event.preventDefault(); saveProfile(this);">
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <div class="avatar-large" id="avatar-preview" style="background-image:url('${escapeAttr(u.avatar_url || '')}')">${!u.avatar_url ? escapeHtml((u.display_name?.[0] || '?').toUpperCase()) : ''}</div>
+        <label class="btn">
+          Change avatar
+          <input type="file" accept="image/*" hidden onchange="uploadAvatar(this)" />
+        </label>
+      </div>
+      <label style="display:flex; flex-direction:column; gap:.3rem;">
+        <span class="muted">Display name</span>
+        <input class="pill-input" style="padding:.6rem .8rem;" type="text" name="display_name" value="${escapeAttr(u.display_name || '')}" required />
+      </label>
+      <label style="display:flex; flex-direction:column; gap:.3rem;">
+        <span class="muted">Bio</span>
+        <textarea class="pill-input" style="padding:.6rem .8rem; min-height:80px;" name="bio">${escapeHtml(u.bio || '')}</textarea>
+      </label>
+      <div><button class="btn btn-primary" type="submit">Save profile</button></div>
+    </form>
+  `;
+}
+
+window.uploadAvatar = async function (fileInput) {
+  const file = fileInput.files?.[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) return alert('5MB max');
+  try {
+    const c = await supa();
+    const meId = await meUserId();
+    const path = `${meId}/avatar_${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
+    const { error: upErr } = await c.storage.from('avatars').upload(path, file, { contentType: file.type, upsert: true });
+    if (upErr) throw upErr;
+    const { data: pub } = c.storage.from('avatars').getPublicUrl(path);
+    const url = pub.publicUrl;
+    const { error: rpcErr } = await c.rpc('update_profile', { p_display_name: null, p_bio: null, p_avatar_url: url });
+    if (rpcErr) throw rpcErr;
+    await loadData();
+    render();
+  } catch (e) { alert(e.message); }
+};
+
+window.saveProfile = async function (formEl) {
+  const display_name = formEl.querySelector('input[name="display_name"]').value.trim();
+  const bio = formEl.querySelector('textarea[name="bio"]').value;
+  try {
+    const c = await supa();
+    const { error } = await c.rpc('update_profile', { p_display_name: display_name, p_bio: bio, p_avatar_url: null });
+    if (error) throw error;
+    await loadData();
+    render();
+  } catch (e) { alert(e.message); }
+};
+
+// -------- admin panel --------
+async function hydrateAdminPanel() {
+  const c = await supa();
+  const [{ data: users }, { data: reports }] = await Promise.all([
+    c.from('users').select('id, display_name, handle, email, role, last_seen_at').order('id', { ascending: false }).limit(200),
+    c.from('reports').select('id, reason, detail, status, created_at, reporter_user_id, reported_user_id, message_id').eq('status', 'open').order('created_at', { ascending: false }),
+  ]);
+  commsState.admin = { users: users || [], reports: reports || [] };
+  const el = view.querySelector('#admin-body');
+  if (!el) return;
+  el.innerHTML = `
+    <h2 class="h2">Users</h2>
+    <div class="card-list">
+      ${commsState.admin.users.map((u) => `
+        <article class="campaign-card">
+          <div class="campaign-card-head">
+            <h3>${escapeHtml(u.display_name || u.handle || u.email || 'user')}</h3>
+            <span class="status-pill" data-status="${escapeAttr(u.role)}">${escapeHtml(u.role)}</span>
+          </div>
+          <div class="muted">${escapeHtml(u.email || '')}</div>
+          <div style="display:flex; gap:.5rem; margin-top:.4rem;">
+            ${u.role !== 'team_lead' ? `<button class="btn btn-primary" onclick="adminSetRole(${u.id}, 'team_lead')">Promote to team_lead</button>` : ''}
+            ${u.role === 'team_lead' ? `<button class="btn" onclick="adminSetRole(${u.id}, 'regular')">Demote to regular</button>` : ''}
+          </div>
+        </article>
+      `).join('')}
+    </div>
+
+    <h2 class="h2" style="margin-top:1.5rem;">Open reports</h2>
+    <div class="card-list">
+      ${commsState.admin.reports.length ? commsState.admin.reports.map((r) => `
+        <article class="campaign-card">
+          <div class="campaign-card-head">
+            <h3>${escapeHtml(r.reason)}</h3>
+            <span class="muted">${new Date(r.created_at).toLocaleString()}</span>
+          </div>
+          <div class="muted">${escapeHtml(r.detail || '')}</div>
+        </article>`).join('') : '<p class="muted">No open reports.</p>'}
+    </div>
+  `;
+}
+
+window.adminSetRole = async function (id, role) {
+  try {
+    const c = await supa();
+    const { error } = await c.rpc('admin_set_role', { p_user_id: id, p_role: role });
+    if (error) throw error;
+    await hydrateAdminPanel();
+  } catch (e) { alert(e.message); }
+};
+
+// -------- new-chat sheet (group creation) --------
+window.openNewChatSheet = function () {
+  const tpl = document.getElementById('tpl-new-chat');
+  if (!tpl || !sheetBody) return;
+  sheetBody.innerHTML = '';
+  sheetBody.appendChild(tpl.content.cloneNode(true));
+  sheetBody.setAttribute('data-open', 'true');
+  sheetBackdrop.setAttribute('data-open', 'true');
+};
+
+window.submitNewGroup = async function (formEl) {
+  const title = formEl.querySelector('input[name="title"]').value.trim();
+  const handlesRaw = formEl.querySelector('input[name="handles"]').value.trim();
+  if (!title) return;
+  try {
+    const c = await supa();
+    let userIds = [];
+    if (handlesRaw) {
+      const handles = handlesRaw.split(',').map(s => s.trim()).filter(Boolean);
+      const results = await Promise.all(handles.map(h => c.rpc('search_people', { p_query: h, p_limit: 1 })));
+      userIds = results.flatMap(r => (r.data || []).map(u => u.id));
+    }
+    const { data, error } = await c.rpc('create_group', { p_title: title, p_user_ids: userIds });
+    if (error) throw error;
+    closeSheet();
+    await hydrateChats();
+    await openConversation(data);
+  } catch (e) { alert(e.message); }
+};

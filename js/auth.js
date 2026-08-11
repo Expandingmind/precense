@@ -83,6 +83,13 @@
     return data;
   }
 
+  async function ensureCommsUser() {
+    const c = await getClient();
+    const { data, error } = await c.rpc('ensure_comms_user');
+    if (error) throw error;
+    return data;
+  }
+
   async function redeemInvite(token) {
     const c = await getClient();
     const { data, error } = await c.rpc('redeem_invite', { p_token: token });
@@ -173,6 +180,7 @@
     setUserRole,
     fetchBrandData,
     createCampaign,
+    ensureCommsUser,
     redeemInvite,
     generateInvite,
     updateTeamMemberSplit,

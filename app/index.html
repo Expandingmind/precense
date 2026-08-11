@@ -45,7 +45,7 @@
 
 <!-- ---------- TEMPLATES ---------- -->
 
-<template id="tpl-home">
+<template id="tpl-home-legacy">
   <div class="page-grid">
     <section class="page-main">
       <div class="hero-block reveal in">
@@ -133,7 +133,7 @@
   </div>
 </template>
 
-<template id="tpl-profile">
+<template id="tpl-profile-legacy">
   <div class="page-single">
     <section class="profile-hero reveal in">
       <div class="profile-cover"></div>
@@ -217,7 +217,7 @@
   </div>
 </template>
 
-<template id="tpl-settings">
+<template id="tpl-settings-legacy">
   <div class="page-single-narrow">
     <div class="hero-block reveal in">
       <div class="eyebrow">SETTINGS</div>
@@ -258,7 +258,7 @@
   </div>
 </template>
 
-<template id="tpl-saved">
+<template id="tpl-saved-legacy">
   <div class="page-single-narrow">
     <div class="hero-block reveal in">
       <div class="eyebrow">SAVED</div>
@@ -342,7 +342,7 @@
   </div>
 </template>
 
-<template id="tpl-admin">
+<template id="tpl-admin-legacy">
   <div class="page-grid">
     <section class="page-main">
       <div class="section-head reveal in">
@@ -395,6 +395,66 @@
     <input class="pill-input" style="padding:.6rem .8rem;" type="number" name="default_team_take_pct" min="0" max="50" step="0.5" value="20" placeholder="Default team take %" />
     <button class="btn btn-primary btn-lg" type="submit">Create team</button>
     <div class="signin-error" id="team-err" hidden></div>
+  </form>
+  <span class="sheet-not-now" onclick="closeSheet()">Cancel</span>
+</template>
+
+<template id="tpl-chats">
+  <div class="chats-shell">
+    <aside class="chats-side">
+      <div class="chats-side-head">
+        <h2>Chats</h2>
+        <button class="btn btn-primary" onclick="openNewChatSheet()">+ New</button>
+      </div>
+      <div id="chat-list" class="chat-list"></div>
+    </aside>
+    <section id="chat-pane" class="chat-pane"><div class="empty-block"><p class="muted">Pick a chat or start a new one.</p></div></section>
+  </div>
+</template>
+
+<template id="tpl-friends">
+  <div class="page-grid">
+    <section class="page-main" id="friends-content"></section>
+  </div>
+</template>
+
+<template id="tpl-profile">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in"><h1 class="h1-lg">Your profile</h1></div>
+      <div id="profile-editor"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-settings">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in"><h1 class="h1-lg">Settings</h1></div>
+      <div class="card" style="padding:1.25rem; display:flex; flex-direction:column; gap:.75rem;">
+        <button class="btn" onclick="window.precenseAuth.signOut()">Sign out</button>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-admin">
+  <div class="page-grid">
+    <section class="page-main">
+      <div class="section-head reveal in"><h1 class="h1-lg">Admin</h1></div>
+      <div id="admin-body"></div>
+    </section>
+  </div>
+</template>
+
+<template id="tpl-new-chat">
+  <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></div>
+  <h2 class="sheet-title">New <em>group</em>.</h2>
+  <p class="sheet-body">For a DM, use <strong>Friends → Message</strong> instead.</p>
+  <form onsubmit="event.preventDefault(); submitNewGroup(this);" style="display:flex; flex-direction:column; gap:.75rem;">
+    <input class="pill-input" style="padding:.6rem .8rem;" type="text" name="title" placeholder="Group name" required />
+    <input class="pill-input" style="padding:.6rem .8rem;" type="text" name="handles" placeholder="Add members by handle or email, comma-separated" />
+    <button class="btn btn-primary btn-lg" type="submit">Create group</button>
   </form>
   <span class="sheet-not-now" onclick="closeSheet()">Cancel</span>
 </template>
