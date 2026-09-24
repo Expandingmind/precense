@@ -808,6 +808,8 @@ function renderConvList(convs) {
 
 window.openConversation = async function (id) {
   commsState.activeConversationId = id;
+  const shell = view.querySelector('.chats-shell');
+  if (shell) shell.classList.add('chat-open');
   const conv = commsState.conversations.find((c) => c.id === id);
   const [members, messages] = await Promise.all([loadOtherMembers(id), loadMessages(id)]);
   commsState.members = members;
@@ -827,10 +829,21 @@ window.openConversation = async function (id) {
 function renderChatPane(conv, members, messages) {
   const title = conv?.title || otherMemberName(members) || 'Chat';
   const canPost = conv?.kind !== 'announcement' || ['admin','team_lead'].includes(state.data?.user?.role);
+  const canManage = conv?.kind === 'group';
+  const otherOnline = conv?.kind === 'dm' && isMemberOnline(members.find((m) => m.id !== state.data?.user?.id)?.id);
   return `
     <div class="chat-head">
-      <div class="chat-head-title">${escapeHtml(title)}</div>
-      <div class="chat-head-sub">${members.length} member${members.length === 1 ? '' : 's'}</div>
+      <button class="chat-back" onclick="closeConversation()" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="chat-head-titles">
+        <div class="chat-head-title">
+          ${escapeHtml(title)}
+          ${conv?.kind === 'dm' ? `<span class="presence-dot ${otherOnline ? 'on' : 'off'}" title="${otherOnline ? 'online' : 'offline'}"></span>` : ''}
+        </div>
+        <div class="chat-head-sub">${members.length} member${members.length === 1 ? '' : 's'}</div>
+      </div>
+      ${canManage ? `<button class="chat-head-menu" onclick="openGroupSheet(${conv.id})" aria-label="Group settings">⋯</button>` : ''}
     </div>
     <div class="thread" id="thread">
       ${messages.map((m) => renderMessage(m)).join('')}
@@ -861,15 +874,42 @@ function renderMessage(m) {
   const name = sender?.display_name || sender?.handle || 'unknown';
   const when = new Date(m.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   const attachments = (m.message_attachments || []).map((a) => attachmentHtml(a)).join('');
+  const seen = mine ? seenIndicator(m) : '';
   return `
     <div class="msg${mine ? ' mine' : ''}" data-id="${m.id}">
       ${mine ? '' : `<div class="msg-sender">${escapeHtml(name)}</div>`}
       ${m.body ? `<div class="msg-body">${escapeHtml(m.body)}</div>` : ''}
       ${attachments}
-      <div class="msg-time">${when}</div>
+      <div class="msg-time">${when}${seen}${mine ? '' : ` · <button class="msg-report" onclick="openReportSheet(${m.id})">report</button>`}</div>
     </div>
   `;
 }
+
+function seenIndicator(m) {
+  // For DMs: show a check if the other member's last_read_at >= this message's created_at.
+  const meId = state.data?.user?.id;
+  const others = commsState.members.filter((x) => x.id !== meId);
+  if (!others.length) return '';
+  const msgTime = new Date(m.created_at).getTime();
+  const seenByAll = others.every((o) => o.last_read_at && new Date(o.last_read_at).getTime() >= msgTime);
+  return seenByAll ? ' · <span class="msg-seen" title="Seen">✓✓</span>' : '';
+}
+
+function isMemberOnline(userId) {
+  if (!userId || !commsState.presence) return false;
+  for (const entries of commsState.presence.values()) {
+    if (Array.isArray(entries) && entries.some((e) => e.user_id === userId)) return true;
+  }
+  return false;
+}
+
+window.closeConversation = function () {
+  commsState.activeConversationId = null;
+  const shell = view.querySelector('.chats-shell');
+  if (shell) shell.classList.remove('chat-open');
+  const paneEl = view.querySelector('#chat-pane');
+  if (paneEl) paneEl.innerHTML = '<div class="empty-block"><p class="muted">Pick a chat.</p></div>';
+};
 
 function attachmentHtml(a) {
   const url = attachmentUrl(a.storage_path);
@@ -914,6 +954,13 @@ async function subscribeToConversation(convId) {
     .on('presence', { event: 'sync' }, () => {
       const s = ch.presenceState();
       commsState.presence = new Map(Object.entries(s));
+      // Refresh presence dot in the header without full re-render.
+      const dotEl = view.querySelector('.chat-head .presence-dot');
+      if (dotEl) {
+        const otherId = commsState.members.find((m) => m.id !== state.data?.user?.id)?.id;
+        dotEl.className = `presence-dot ${isMemberOnline(otherId) ? 'on' : 'off'}`;
+        dotEl.title = isMemberOnline(otherId) ? 'online' : 'offline';
+      }
     })
     .subscribe(async (status) => {
       if (status === 'SUBSCRIBED') {
