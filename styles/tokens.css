@@ -4,14 +4,14 @@
 
 :root{
   /* Canvas — light cream, warm vertical fade with an emerald glow at top */
-  --canvas-top: #e3efe7;
-  --canvas-mid: #f1f0e9;
-  --canvas-bottom: #ffffff;
+  --canvas-top: #cbe2d5;
+  --canvas-mid: #dce9df;
+  --canvas-bottom: #eef2ea;
   --glow: #2f9e6f;            /* luminous emerald — glows + grid ONLY, never text */
   --canvas-gradient:
-    radial-gradient(115% 72% at 50% -8%, rgba(47,158,111,0.38), transparent 56%),
-    radial-gradient(150% 95% at 50% -18%, rgba(20,64,52,0.26), transparent 62%),
-    linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 40%, var(--canvas-bottom) 100%);
+    radial-gradient(125% 98% at 50% -4%, rgba(28,105,76,0.48), transparent 80%),
+    radial-gradient(175% 125% at 50% -10%, rgba(14,48,38,0.36), transparent 85%),
+    linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 60%, var(--canvas-bottom) 100%);
 
   /* Forest green (primary) — the deep side of the palette */
   --green: #1f5540;
@@ -130,11 +130,11 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(18,58,46,0.17) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(18,58,46,0.17) 1px, transparent 1px);
+    linear-gradient(rgba(14,48,38,0.20) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14,48,38,0.20) 1px, transparent 1px);
   background-size: 19px 19px;
-  -webkit-mask: radial-gradient(130% 100% at 50% 0, #000 12%, transparent 66%);
-          mask: radial-gradient(130% 100% at 50% 0, #000 12%, transparent 66%);
+  -webkit-mask: radial-gradient(155% 135% at 50% 0, #000 24%, transparent 88%);
+          mask: radial-gradient(155% 135% at 50% 0, #000 24%, transparent 88%);
 }
 
 /* Subtle grain for richness */
