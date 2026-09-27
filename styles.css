@@ -328,7 +328,7 @@ body::after { content: ''; display: block; height: 112px; }
 }
 
 /* ---------- MARQUEE ---------- */
-.marquee-section { background: color-mix(in oklab, var(--canvas-top) 90%, black); border-bottom: 1px solid var(--border-hairline); padding: 1.35rem 0; }
+.marquee-section { background: transparent; border: none; padding: 1.5rem 0; }
 .marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .marquee-track {
   display: flex; gap: 2.6rem; white-space: nowrap;
