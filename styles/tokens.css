@@ -176,36 +176,36 @@ button { font: inherit; }
   font-size: var(--fs-display);
   line-height: 1.03;
   letter-spacing: -.032em;
-  font-weight: 650;
+  font-weight: 750;
   text-wrap: balance;
   margin: 0;
   color: var(--ink);
 }
-.display em { font-style: normal; font-weight: 700; color: var(--green); }
+.display em { font-style: normal; font-weight: 800; color: var(--green); }
 
 .h1-lg {
   font-family: var(--font-sans);
   font-size: var(--fs-display-sm);
   line-height: 1.08;
   letter-spacing: -.026em;
-  font-weight: 650;
+  font-weight: 750;
   text-wrap: balance;
   margin: 0;
   color: var(--ink);
 }
-.h1-lg em { font-style: normal; font-weight: 700; color: var(--green); }
+.h1-lg em { font-style: normal; font-weight: 800; color: var(--green); }
 
 .h2 {
   font-family: var(--font-sans);
   font-size: var(--fs-h2);
   line-height: 1.06;
   letter-spacing: -.028em;
-  font-weight: 650;
+  font-weight: 750;
   text-wrap: balance;
   margin: 0;
   color: var(--ink);
 }
-.h2 em { font-style: normal; font-weight: 700; color: var(--green); }
+.h2 em { font-style: normal; font-weight: 800; color: var(--green); }
 
 .h3 {
   font-family: var(--font-sans);
